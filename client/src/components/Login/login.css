@@ -1,0 +1,24 @@
+.container{
+    margin: 0 auto;
+    background: lightslategray;
+    width: 30%;
+    height: 500px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    padding: 5rem;
+}
+
+form div{
+    margin: 1rem 0;
+}
+
+input{
+    margin-left: .5rem;
+}
+button{
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
