@@ -22,10 +22,17 @@ const PORT = process.env.PORT;
 
 const CONNEXION = process.env.MONGODB_CONNECTION;
 
-mongoose.connect(CONNEXION)
-.then(()=>app.listen(PORT, () => console.log(`Listening to port ${PORT}`, CONNEXION)))
-.catch((error)=>console.log(`${error} did not connect`))
+mongoose
+  .connect(CONNEXION, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => app.listen(PORT, () => console.log(`Connected and Listening at Port ${PORT}`)))
+  .catch((error) => console.log(`${error} did not connect`));
 
+// app.post("/register", (req, res) => {
+//   console.log("Regisiter post request");
+// });
 
+// app.post("/login", (req, res) => {
+//   console.log("Login post request");
+// });
 
-
+// app.listen(PORT, () => console.log("Listening to port 5000", CONNEXION));
