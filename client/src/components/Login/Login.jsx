@@ -3,12 +3,15 @@ import { useState, useEffect } from "react";
 import "./login.css";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import {FaUserCircle} from 'react-icons/fa'
+import Register from "./Register";
 
 const Login = () => {
 
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [clicked, setClicked] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -30,7 +33,6 @@ const Login = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(username,password)
     axios.post("http://localhost:5000/auth/login", {username,password})
     .then(user=>{
       console.log(user)
@@ -41,22 +43,44 @@ const Login = () => {
     })
   }
 
-  return (
-    <div className="container">
+  const handleClicked = () => {
+    setClicked(true)
+  }
+
+  const display = clicked ? <Register /> : <div className="container">
       <form action="">
-        <div className="username">
-          <label htmlFor="username">username</label>
-          <input type="text" placeholder="your name" value={username} onChange={e => setUsername(e.target.value)}/>
+        <div className="login-left">
+          <span><FaUserCircle /></span>
         </div>
-        <div className="password">
-          <label htmlFor="password">password</label>
-          <input type="password" placeholder="your password" value={password} onChange={e=>setPassword(e.target.value)}/>
+        <div className="inputs">
+          <input
+            type="text"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
-        <button onClick={submit}>Se connecter</button>
-        <button>Créer un compte</button>
+
+        <div className="buttons">
+          <button onClick={submit} className="btn-connect">
+            Se connecter
+          </button>
+          <div>
+           <p> Vous n'avez pas de compte ? <span onClick={handleClicked}>créer un compte</span></p>
+          </div>
+        </div>
       </form>
     </div>
-  );
+  
+  return (
+    display
+  )
 };
 
 export default Login;
