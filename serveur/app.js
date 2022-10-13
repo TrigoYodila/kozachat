@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 //Routes
 const AuthRoute = require('./Routes/AuthRoute');
+const passport = require("passport");
 
 const app = express();
 
@@ -12,6 +13,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(passport.initialize())
+
+require('./passport')
 // app.use(bodyparser.json({ limit: "30", extended: true }));
 // app.use(bodyparser.urlencoded({ limit: "30", extended: true }));
 

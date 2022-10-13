@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-    email : {
-        type:String,
-        required:true,
-    },
+
     username:{
         type:String,
         reuired:true
@@ -13,14 +10,13 @@ const UserSchema = mongoose.Schema({
         type:String,
         reuired:true
     },
-    lastname:{
-        type:String,
-    },
     isAdmin:{
         type:Boolean,
         default:false
     },
-    profilepicture:String,
+    profilepicture:{
+        type:String
+    }
   },
   {timestamps:true})
 

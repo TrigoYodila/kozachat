@@ -1,5 +1,6 @@
 const { hashSync, compareSync } = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const passport = require('passport')
 const UserModel = require('../Models/userModel')
 
 const registerUser = async(req,res) => {
@@ -8,11 +9,11 @@ const registerUser = async(req,res) => {
     req.body.password = hashpassword
 
     const newUser = new UserModel(req.body)
-    const {email} = req.body
+    const {username} = req.body
 
     try{
         //check user existing
-        const oldUser = await UserModel.findOne({email})
+        const oldUser = await UserModel.findOne({ username });
 
         if(oldUser)
             return res.status(400).json({message:"User already exists"});
@@ -28,8 +29,8 @@ const registerUser = async(req,res) => {
             res.status(200).json({
                 success:true,
                 message:"user created successfully",
-                user,
-                token
+                user:user,
+                token:"Bearer " + token
             })
         })
     }catch(error){
@@ -60,8 +61,7 @@ const loginUser = (req,res) => {
               res.status(200).json({
                 success: true,
                 message: "Login successfully",
-                // user,
-                token,
+                token:"Bearer " + token
               });
             }
         }else{
@@ -79,7 +79,20 @@ const loginUser = (req,res) => {
         })
     })
 }
-module.exports = { registerUser, loginUser };
+
+const protectedUser = (req,res) => {
+    return res.status(200).send({
+        success:true,
+        user:{
+            id:req.user._id,
+            username:req.user.username
+        }
+    })
+    
+}
+
+
+module.exports = { registerUser, loginUser, protectedUser };
 
 
 
