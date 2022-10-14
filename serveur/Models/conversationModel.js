@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const ConversationSchema = mongoose.Schema(
   {
     participants: {
-      type: Array,
+      type: Array
     },
   },
   {

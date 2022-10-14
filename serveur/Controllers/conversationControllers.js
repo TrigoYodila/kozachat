@@ -1,26 +1,48 @@
 const ConversationModel = require('../Models/conversationModel');
 
 const createConversation = (req,res) => {
-    const newConversation = new ConversationModel({
-        participants:[req.body.senderId,req.body.receverId],
-    })
 
-    newConversation.save()
-    .then((result)=>{
-        res.status(200).json(result)
-    }).catch(error=>{
-        res.status(500).json(error)
+    const {senderId,receverId} = req.body;
+    
+    ConversationModel.findOne({
+      $or: [
+        { senderId, receverId },
+        { receverId, senderId},
+      ],
+    }).then((result)=>{
+        if(result !== null){
+            res.status(400).json({
+                message:"conversation existe"
+            })
+        }else{
+          const newConversation = new ConversationModel({
+                participants: [senderId,receverId]
+              });
+              newConversation
+                .save()
+                .then((result) => {
+                  res.status(200).json({
+                    message: "conversation created",
+                    result,
+                  });
+                })
+                .catch((error) => {
+                  res.status(500).json(error);
+                });
+        }
     })
 
 }
-
 const userConversations = (req,res) => {
-    ConversationModel.find({participants:[req.params.userId]})
-    .then(chat=>{
-        res.status(200).json(chat)
-    }).catch(error=>{
-        res.status(500).json(error)
+    ConversationModel.find({
+      participants: { $in: [req.params.userId] },
     })
+      .then((chat) => {
+        res.status(200).json(chat);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
 }
 
 const findConversation = (req,res) => {
