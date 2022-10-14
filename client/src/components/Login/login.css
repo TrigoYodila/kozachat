@@ -15,6 +15,8 @@
 .login-left span{
     font-size: 8rem;
     color: var(--blue);
+    background-color: #fff;
+    border-radius: 50%;
 }
 
 form {
@@ -25,7 +27,7 @@ form {
   flex-direction: column;
   padding: 5rem 4rem;
   border-radius: 2rem;
-  box-shadow: var(--box-shadow);
+  /* box-shadow: var(--box-shadow); */
 }
 
 .inputs {
@@ -37,7 +39,7 @@ form {
 .btn-connect {
   background: var(--blue);
   padding: 1.2rem;
-  border-radius: 1rem;
+  /* border-radius: 1rem; */
   color: var(--white);
   cursor: pointer;
   margin-bottom: 1rem;
@@ -60,8 +62,5 @@ form div {
 }
 
 input {
-  font-size: 1.5rem;
-  background: rgb(207, 207, 207, 0.4);
-  border-radius: 1rem;
-  padding: 1.5rem 1.5rem;
+  
 }

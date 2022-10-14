@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import {FaUserCircle} from 'react-icons/fa'
 import Register from "./Register";
 
+
 const Login = () => {
 
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [clicked, setClicked] = useState(false)
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -50,7 +52,7 @@ const Login = () => {
   const display = clicked ? <Register /> : <div className="container">
       <form action="">
         <div className="login-left">
-          <span><FaUserCircle /></span>
+          <span><FaUserCircle/></span>
         </div>
         <div className="inputs">
           <input

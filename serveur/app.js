@@ -1,11 +1,13 @@
 const express = require("express");
-const bodyparser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const passport = require("passport");
+const conversationRoute = require('./Routes/conversationRoute')
+
 
 //Routes
 const AuthRoute = require('./Routes/AuthRoute');
-const passport = require("passport");
+
 
 const app = express();
 
@@ -30,3 +32,4 @@ mongoose
   .catch((error) => console.log(`${error} did not connect`));
 
 app.use('/auth',AuthRoute);
+app.use('/conversation',conversationRoute)
