@@ -1,6 +1,6 @@
 //Initial State and Actions
 export const initialState = {
-  authUser: {},
+  user: {},
   loading: false,
 };
 
@@ -18,7 +18,7 @@ const AuthReducer = (state, action) => {
     case "GET_USER":
       return {
         ...state,
-        authUser: action.authUser,
+        user: action.user,
       };
     case "AUTH_START":
       return {

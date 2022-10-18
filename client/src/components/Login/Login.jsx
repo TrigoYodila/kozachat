@@ -1,28 +1,24 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./login.css";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {FaUserCircle} from 'react-icons/fa'
+import { FaUserCircle } from "react-icons/fa";
 import Register from "./Register";
 import { useStateValue } from "../../reducers/StateProvider";
 
-
 const Login = () => {
+  const [{ user }, dispatch] = useStateValue();
 
-  const [{authUser}, dispatch] = useStateValue();
-
-  const navigate = useNavigate()
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [clicked, setClicked] = useState(false)
-  const [authuser, setAuthuser] = useState({})
-  
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [clicked, setClicked] = useState(false);
+  // const [authuser, setAuthuser] = useState({});
 
   useEffect(() => {
-
     const token = localStorage.getItem("token");
-  
+
     axios
       .get("http://localhost:5000/auth/protected", {
         headers: {
@@ -31,7 +27,7 @@ const Login = () => {
       })
       .then((res) => {
         console.log(res);
-         navigate("/protected");
+        navigate("/protected");
       })
       .catch((err) => {
         console.log(err);
@@ -39,43 +35,49 @@ const Login = () => {
       });
   }, []);
 
-  useEffect(() => {
-    dispatch({
-      type: "GET_USER",
-      authUser: authuser
-    });
-    console.log("valeur ", authUser);
-  }, [authUser, authuser]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "GET_USER",
+  //     user: authuser
+  //   });
+  //   console.log("valeur ", user);
+  // }, [user, authuser]);
+  console.log("valeur ", user);
 
   const submit = (e) => {
-
     e.preventDefault();
 
-    axios.post("http://localhost:5000/auth/login", {username,password})
-    .then(user=>{
-      console.log(user)
-      localStorage.setItem('token',user.data.token)
-
-      setAuthuser({
-        token: user.data.token,
-        username: user.data.user.username,
+    axios
+      .post("http://localhost:5000/auth/login", { username, password })
+      .then((user) => {
+        // console.log(user)
+        localStorage.setItem("token", user.data.token);
+        // localStorage.setItem("user",user.data.user)
+        // setAuthuser(user);
+        dispatch({
+          type: "GET_USER",
+          user
+        });
+        // navigate("/protected");
+      })
+      .catch((err) => {
+        console.log(err);
       });
-
-      navigate('/protected')
-    }).catch(err=>{
-      console.log(err)
-    })
-    
-  }
+  };
 
   const handleClicked = () => {
-    setClicked(true)
-  }
+    setClicked(true);
+  };
 
-  const display = clicked ? <Register /> : <div className="container">
+  const display = clicked ? (
+    <Register />
+  ) : (
+    <div className="container">
       <form action="">
         <div className="login-left">
-          <span><FaUserCircle/></span>
+          <span>
+            <FaUserCircle />
+          </span>
         </div>
         <div className="inputs">
           <input
@@ -97,15 +99,18 @@ const Login = () => {
             Se connecter
           </button>
           <div>
-           <p> Vous n'avez pas de compte ? <span onClick={handleClicked}>créer un compte</span></p>
+            <p>
+              {" "}
+              Vous n'avez pas de compte ?{" "}
+              <span onClick={handleClicked}>créer un compte</span>
+            </p>
           </div>
         </div>
       </form>
     </div>
-  
-  return (
-    display
-  )
+  );
+
+  return display;
 };
 
 export default Login;

@@ -5,17 +5,17 @@ import './sidebar.css'
 import { useStateValue } from '../../reducers/StateProvider'
 
 
-const Sidebar = () => {
+const Sidebar = ({user}) => {
 
-   const [{authUser}] = useStateValue();
-   console.log(authUser)
+  //  const [{ user }] = useStateValue();
+   console.log("sidebar-user",user)
 
   return (
     <div className="sidebar-container">
       <div className="sidebar-top">
         <div className="user-image">
           <img src="" alt="" />
-          <p>{authUser.username}</p>
+          <p>pathy</p>
         </div>
         <div className="user-icons"></div>
       </div>

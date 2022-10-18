@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../conversation/conversation.css";
 import Messages from "../../Messages";
 import InputEmoji from "react-input-emoji";
 
-const Conversation = () => {
+const Conversation = ({ conversation, currentUserId }) => {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    console.log(conversation);
+    const userId = conversation.participants?.find(
+      (id) => id !== currentUserId
+    );
+    console.log("userId", userId);
+    const getUserData = async () => {};
+  }, []);
+
   return (
     <div className="conversation-container">
       <div className="conversation-header">
@@ -19,7 +30,7 @@ const Conversation = () => {
       </div>
 
       <div className="conversation-body">
-        {Messages.map((message) => (
+        {Messages.map((message, index) => (
           <div className={message.senderId === 1 ? "message own" : "message"}>
             <span>{message.text}</span>
             <span>Bonjour</span>
