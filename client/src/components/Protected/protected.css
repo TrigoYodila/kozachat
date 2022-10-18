@@ -1,0 +1,6 @@
+.chat-container {
+    display: grid;
+    grid-template-columns: 12rem 30rem auto;
+    gap: 1rem;
+    padding: 2rem;
+}

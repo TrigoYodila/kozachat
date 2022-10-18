@@ -5,18 +5,24 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import {FaUserCircle} from 'react-icons/fa'
 import Register from "./Register";
+import { useStateValue } from "../../reducers/StateProvider";
 
 
 const Login = () => {
+
+  const [{authUser}, dispatch] = useStateValue();
 
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [clicked, setClicked] = useState(false)
+  const [authuser, setAuthuser] = useState({})
   
 
   useEffect(() => {
+
     const token = localStorage.getItem("token");
+  
     axios
       .get("http://localhost:5000/auth/protected", {
         headers: {
@@ -33,16 +39,33 @@ const Login = () => {
       });
   }, []);
 
+  useEffect(() => {
+    dispatch({
+      type: "GET_USER",
+      authUser: authuser
+    });
+    console.log("valeur ", authUser);
+  }, [authUser, authuser]);
+
   const submit = (e) => {
+
     e.preventDefault();
+
     axios.post("http://localhost:5000/auth/login", {username,password})
     .then(user=>{
       console.log(user)
       localStorage.setItem('token',user.data.token)
+
+      setAuthuser({
+        token: user.data.token,
+        username: user.data.user.username,
+      });
+
       navigate('/protected')
     }).catch(err=>{
       console.log(err)
     })
+    
   }
 
   const handleClicked = () => {

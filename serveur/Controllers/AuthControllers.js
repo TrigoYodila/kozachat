@@ -12,27 +12,27 @@ const registerUser = async(req,res) => {
     const {username} = req.body
 
     try{
-        //check user existing
-        const oldUser = await UserModel.findOne({ username });
+      //check useconst loginUser = (req,res) => {r existing
+      const oldUser = await UserModel.findOne({ username });
 
-        if(oldUser)
-            return res.status(400).json({message:"User already exists"});
+      if (oldUser)
+        return res.status(400).json({ message: "User already exists" });
 
-        //save new user
-        newUser.save().then((user)=>{
-            //token
-            const token = jwt.sign(
-                {username:user.username, id:user._id},
-                process.env.JWTKEY,
-                {expiresIn:"1h"}
-            )
-            res.status(200).json({
-                success:true,
-                message:"user created successfully",
-                user:user,
-                token:"Bearer " + token
-            })
-        })
+      //save new user
+      newUser.save().then((user) => {
+        //token
+        const token = jwt.sign(
+          { username: user.username, id: user._id },
+          process.env.JWTKEY,
+          { expiresIn: "1h" }
+        );
+        res.status(200).json({
+          success: true,
+          message: "user created successfully",
+          user: user,
+          token: "Bearer " + token,
+        });
+      });
     }catch(error){
         res.status(500).json({message:error.message})
     }
@@ -61,7 +61,8 @@ const loginUser = (req,res) => {
               res.status(200).json({
                 success: true,
                 message: "Login successfully",
-                token:"Bearer " + token
+                token:"Bearer " + token,
+                user
               });
             }
         }else{
@@ -90,7 +91,6 @@ const protectedUser = (req,res) => {
     })
     
 }
-
 
 module.exports = { registerUser, loginUser, protectedUser };
 

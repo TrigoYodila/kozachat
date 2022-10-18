@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const conversationRoute = require('./Routes/conversationRoute')
-
+const messageRoute = require('./Routes/messageRoute');
 
 //Routes
 const AuthRoute = require('./Routes/AuthRoute');
@@ -16,6 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(passport.initialize())
+
+const restrictor = passport.authenticate('jwt',{session:false})
 
 require('./passport')
 // app.use(bodyparser.json({ limit: "30", extended: true }));
@@ -33,3 +35,4 @@ mongoose
 
 app.use('/auth',AuthRoute);
 app.use('/conversation',conversationRoute)
+app.use('/message',messageRoute);
