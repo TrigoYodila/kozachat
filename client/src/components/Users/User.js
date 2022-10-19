@@ -10,9 +10,9 @@ const User = (data,online) => {
 
   console.log("data user", data.data);
   console.log("current user", currentUserId);
-
+  
   useEffect(() => {
-    const userId = data.data.participants?.find((id) => id !== currentUserId);
+    const userId = data?.data?.participants?.find((id) => id !== currentUserId);
     // console.log("userId", userId);
     // console.log("participants", conversation.participants);
 

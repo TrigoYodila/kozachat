@@ -9,6 +9,7 @@ import "./protected.css";
 import { useStateValue } from "../../reducers/StateProvider";
 import { userConversation } from "../../api/ConversationRequest";
 import userContext from "./userContext";
+import { getaUser } from "../../api/UserRequest";
 
 const Protected = () => {
   const navigate = useNavigate();
@@ -22,8 +23,10 @@ const Protected = () => {
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentConversation, setCurrentConversation] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  
 
   useEffect(() => {
+
     const getConversations = async () => {
       try {
         const { data } = await userConversation(user._id);
@@ -90,7 +93,7 @@ const Protected = () => {
           </div>
         </div>
 
-        <Conversation />
+        <Conversation conversation={currentConversation} currentUserId = {currentUserId}/>
       </userContext.Provider>
     </div>
   );
