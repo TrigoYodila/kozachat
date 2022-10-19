@@ -8,7 +8,7 @@ import { getaUser } from "../../api/UserRequest";
 const Conversation = ({ conversation, currentUserId }) => {
 
   const [userData, setUserData] = useState(null);
-  console.log("conver data", currentUserId)
+  // console.log("conver data", currentUserId)
 
   useEffect(() => {
 

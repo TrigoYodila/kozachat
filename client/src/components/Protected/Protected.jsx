@@ -63,6 +63,7 @@ const Protected = () => {
     return online ? true : false;
   };
 
+  // console.log("user current Id", currentUserId)
   return (
     <div className="chat-container">
       <userContext.Provider value={{ user, conversation, currentUserId }}>
@@ -80,15 +81,13 @@ const Protected = () => {
                   setCurrentConversation(conversation);
                 }}
               >
-                <Conversation
+                <User
                   data={conversation}
-                  currentUser={user._id}
                   online={checkOnlineStatus(conversation)}
                 />
               </div>
             ))}
           </div>
-          <User />
         </div>
 
         <Conversation />
