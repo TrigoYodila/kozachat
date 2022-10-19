@@ -35,13 +35,6 @@ const Login = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "GET_USER",
-  //     user: authuser
-  //   });
-  //   console.log("valeur ", user);
-  // }, [user, authuser]);
   console.log("valeur ", user);
 
   const submit = (e) => {
@@ -50,15 +43,12 @@ const Login = () => {
     axios
       .post("http://localhost:5000/auth/login", { username, password })
       .then((user) => {
-        // console.log(user)
         localStorage.setItem("token", user.data.token);
-        // localStorage.setItem("user",user.data.user)
-        // setAuthuser(user);
         dispatch({
           type: "GET_USER",
-          user
+          user:user.data.user
         });
-        // navigate("/protected");
+        navigate("/protected")
       })
       .catch((err) => {
         console.log(err);

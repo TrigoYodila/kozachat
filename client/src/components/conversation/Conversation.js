@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import "../conversation/conversation.css";
 import Messages from "../../Messages";
 import InputEmoji from "react-input-emoji";
+// import { getUser } from "../../../../serveur/Controllers/AuthControllers";
+import { getaUser } from "../../api/UserRequest";
 
 const Conversation = ({ conversation, currentUserId }) => {
+
   const [userData, setUserData] = useState(null);
+  console.log("conver data", currentUserId)
 
   useEffect(() => {
-    console.log(conversation);
-    const userId = conversation.participants?.find(
-      (id) => id !== currentUserId
-    );
-    console.log("userId", userId);
-    const getUserData = async () => {};
+
+    
+
   }, []);
 
   return (

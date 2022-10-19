@@ -6,51 +6,53 @@ import { useEffect, useState } from "react";
 import { useStateValue } from "./reducers/StateProvider";
 import axios from "axios";
 
-
 function App() {
   // const navigate = useNavigate();
-  
+
   const [{ user }, dispatch] = useStateValue();
   const [userId, setUserId] = useState(null);
-   
-  const token = localStorage.getItem("token");
+
   
+
   useEffect(() => {
-    
+
+    const token = localStorage.getItem("token");
     if (token) {
-
       axios
-        .get("http://localhost:5000/auth/user",  {
+        .get("http://localhost:5000/auth/user", {
           headers: {
-          Authorization: token
-        }})
+            Authorization: token,
+          },
+        })
         .then((user) => {
-          setUserId(user.data.user.id)
-           console.log("app data",userId)
+          setUserId(user.data.user.id);
+          console.log("app data new", user.data.user);
         })
         .catch((err) => {
           console.log(err);
         });
     }
 
-    if(userId){
-      axios
-        .get(`http://localhost:5000/auth/authuser/${userId}`)
-        .then((user) => {
-          dispatch({
-            type: "GET_USER",
-            user:user.data.user
+  }, []);
+
+  useEffect(()=>{
+       
+    axios
+          .get(`http://localhost:5000/auth/authuser/${userId}`)
+          .then((user) => {
+            dispatch({
+              type: "GET_USER",
+              user: user.data.user,
+            });
+            console.log("app data user", user);
+          })
+          .catch((err) => {
+            console.log(err);
           });
-          console.log("app data user", user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+      
+  },[userId])
 
-  }, [token]);
-
-  console.log("app user reducer ",user)
+  console.log("app user reducer ", user);
 
   return (
     <BrowserRouter>

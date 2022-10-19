@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const conversationRoute = require('./Routes/conversationRoute')
 const messageRoute = require('./Routes/messageRoute');
+const UserRoute = require('./Routes/UserRoute')
 
 //Routes
 const AuthRoute = require('./Routes/AuthRoute');
@@ -34,5 +35,7 @@ mongoose
   .catch((error) => console.log(`${error} did not connect`));
 
 app.use('/auth',AuthRoute);
+app.use("/user", UserRoute);
 app.use('/conversation',conversationRoute)
 app.use('/message',messageRoute);
+

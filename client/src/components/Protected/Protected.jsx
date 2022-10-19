@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Conversation from "../conversation/Conversation";
@@ -8,26 +8,32 @@ import User from "../Users/User";
 import "./protected.css";
 import { useStateValue } from "../../reducers/StateProvider";
 import { userConversation } from "../../api/ConversationRequest";
+import userContext from "./userContext";
 
 const Protected = () => {
   const navigate = useNavigate();
 
+  // const userdatacontext = useContext(userContext);
+
   const [{ user }] = useStateValue();
-  // console.log("my user", user.data.user._id);
+  console.log("my user", user);
 
   const [conversation, setConversation] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState("");
 
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const { data } = await userConversation(user.data.user._id);
+        const { data } = await userConversation(user._id);
         setConversation(data);
+        
         console.log("data", data);
       } catch (error) {
         console.log(error);
       }
     };
     getConversations();
+    setCurrentUserId(user._id);
     // axios.get(`http://localhost:5000/conversation/${user._id}`)
     // .then(data=>console.log("mes data ", data));
   }, [user]);
@@ -51,12 +57,11 @@ const Protected = () => {
 
   return (
     <div className="chat-container">
-      <Sidebar user={user} />
-      <User />
-      <Conversation
-        conversation={conversation}
-        currentUserId={user?.data?.user?._id}
-      />
+      <userContext.Provider value={{user,conversation,currentUserId}}>
+        <Sidebar user={user} />
+        <User />
+        <Conversation conversation={conversation} currentUserId={user._id} />
+      </userContext.Provider>
     </div>
   );
 };
