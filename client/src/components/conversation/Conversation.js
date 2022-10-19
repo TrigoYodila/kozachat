@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef} from "react";
 import "../conversation/conversation.css";
 import Messages from "../../Messages";
 import InputEmoji from "react-input-emoji";
@@ -6,28 +6,43 @@ import InputEmoji from "react-input-emoji";
 import { getaUser } from "../../api/UserRequest";
 import userContext from "../Protected/userContext";
 import { useStateValue } from "../../reducers/StateProvider";
-import profileuser from '../../Assets/images/user.png'
+import profileuser from "../../Assets/images/user.png";
+import { getMessages } from "../../api/MessagesRequest";
+import {format} from 'timeago.js';
+import {io} from 'socket.io-client';
 
 const Conversation = ({ conversation, currentUserId }) => {
-
   const [{ user }] = useStateValue();
 
   const [userData, setUserData] = useState(null);
-  
-  console.log("conver data", conversation)
-  console.log("current user Id conversation", currentUserId)
-  console.log("user data clicked", userData)
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
 
+  console.log("conver data", conversation);
+  console.log("current user Id conversation", currentUserId);
+  console.log("user data clicked", userData);
+
+  // useEffect(()=>{
+  //   socket.current = io('http://localhost:8800');
+  //   socket.current.emit("new-user-add");
+  //   socket.current.on('get-users', (users)=>{
+  //     setOnlineUsers(users);
+  //   })
+  // },[user])
+
+
+
+  //get Data for header
   useEffect(() => {
     const userId = conversation?.participants?.find(
       (id) => id !== currentUserId
     );
-      console.log("mon user Id", userId)
+    console.log("mon user Id", userId);
     const getUserData = async () => {
       try {
         const { data } = await getaUser(userId);
         setUserData(data);
-        console.log("donnée protegé", data);
+        // console.log("donnée protegé", data);
       } catch (error) {
         console.log(error);
       }
@@ -36,12 +51,39 @@ const Conversation = ({ conversation, currentUserId }) => {
     if (conversation !== null) getUserData();
   }, [conversation, currentUserId]);
 
+  //Fecth data for messages
+
+  useEffect(() => {
+    const takeMessages = async () => {
+      try {
+        const { data } = await getMessages(conversation._id);
+        setMessages(data);
+        console.log("messages data", data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (conversation !== null) takeMessages();
+  },[conversation]);
+
+  const handleChange = (newMessage) => {
+    setNewMessage(newMessage)
+  }
+
   return (
     <div className="conversation-container">
-      <div className="conversation-header">
+      {
+        conversation ? (
+          <>
+            <div className="conversation-header">
         <div className="follower">
           <div>
-            <img src={profileuser} alt=""  style={{ width: "50px", height: "50px" }}/>
+            <img
+              src={profileuser}
+              alt=""
+              style={{ width: "50px", height: "50px" }}
+            />
             <div className="name">
               <span>{userData?.username}</span>
               <span>online</span>
@@ -51,10 +93,10 @@ const Conversation = ({ conversation, currentUserId }) => {
       </div>
 
       <div className="conversation-body">
-        {Messages.map((message, index) => (
-          <div className={message.senderId === 1 ? "message own" : "message"}>
-            <span>{message.text}</span>
-            <span>Bonjour</span>
+        {messages.map((message, index) => (
+          <div className={message.senderId === currentUserId ? "message" : "message own"}>
+            <span>{message.content}</span>
+            <span>{format(message.createdAt)}</span>
           </div>
         ))}
       </div>
@@ -62,12 +104,19 @@ const Conversation = ({ conversation, currentUserId }) => {
       <div className="conversation-sender">
         <div>+</div>
         <InputEmoji
-        // value={}
-        // onChange={handleChange}
+        value={newMessage}
+        onChange={handleChange}
         />
         <div className="send-button button">envoyer</div>
         <input type="file" name="" id="" />
       </div>
+          </>
+        ) : (
+          <span className="message-empty">
+            Demarrer une conversation
+          </span>
+        )
+      }
     </div>
   );
 };

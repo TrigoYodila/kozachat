@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Conversation from "../conversation/Conversation";
@@ -10,11 +10,14 @@ import { useStateValue } from "../../reducers/StateProvider";
 import { userConversation } from "../../api/ConversationRequest";
 import userContext from "./userContext";
 import { getaUser } from "../../api/UserRequest";
+import { io } from 'socket.io-client';
 
 const Protected = () => {
+
   const navigate = useNavigate();
 
   // const userdatacontext = useContext(userContext);
+  const socket = useRef();
 
   const [{ user }] = useStateValue();
   console.log("my user", user);
@@ -23,15 +26,15 @@ const Protected = () => {
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentConversation, setCurrentConversation] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+
   
 
   useEffect(() => {
-
     const getConversations = async () => {
       try {
         const { data } = await userConversation(user._id);
         setConversation(data);
-        
+
         console.log("data", data);
       } catch (error) {
         console.log(error);
@@ -41,6 +44,15 @@ const Protected = () => {
     setCurrentUserId(user._id);
     // axios.get(`http://localhost:5000/conversation/${user._id}`)
     // .then(data=>console.log("mes data ", data));
+  }, [user]);
+
+  // Connect to Socket.io
+  useEffect(() => {
+    socket.current = io("ws://localhost:8800");
+    socket.current.emit("new-user-add", user._id);
+    socket.current.on("get-users", (users) => {
+      setOnlineUsers(users);
+    });
   }, [user]);
 
   useEffect(() => {
@@ -61,7 +73,9 @@ const Protected = () => {
   }, []);
 
   const checkOnlineStatus = (conversation) => {
-    const chatMember = conversation.participants.find((member) => member !== user._id);
+    const chatMember = conversation.participants.find(
+      (member) => member !== user._id
+    );
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;
   };
@@ -93,7 +107,10 @@ const Protected = () => {
           </div>
         </div>
 
-        <Conversation conversation={currentConversation} currentUserId = {currentUserId}/>
+        <Conversation
+          conversation={currentConversation}
+          currentUserId={currentUserId}
+        />
       </userContext.Provider>
     </div>
   );
