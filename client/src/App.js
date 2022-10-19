@@ -36,7 +36,6 @@ function App() {
   }, []);
 
   useEffect(()=>{
-       
     axios
           .get(`http://localhost:5000/auth/authuser/${userId}`)
           .then((user) => {

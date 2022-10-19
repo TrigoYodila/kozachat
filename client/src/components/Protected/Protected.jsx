@@ -20,6 +20,8 @@ const Protected = () => {
 
   const [conversation, setConversation] = useState([]);
   const [currentUserId, setCurrentUserId] = useState("");
+  const [currentConversation, setCurrentConversation] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -55,12 +57,41 @@ const Protected = () => {
       });
   }, []);
 
+  const checkOnlineStatus = (conversation) => {
+    const chatMember = conversation.participants.find((member) => member !== user._id);
+    const online = onlineUsers.find((user) => user.userId === chatMember);
+    return online ? true : false;
+  };
+
   return (
     <div className="chat-container">
-      <userContext.Provider value={{user,conversation,currentUserId}}>
+      <userContext.Provider value={{ user, conversation, currentUserId }}>
         <Sidebar user={user} />
-        <User />
-        <Conversation conversation={conversation} currentUserId={user._id} />
+
+        <div className="user-container">
+          <div className="user-search">
+            <input type="text" placeholder="Search" />
+          </div>
+          <h1>Recent</h1>
+          <div className="recent-user-info">
+            {conversation.map((conversation) => (
+              <div
+                onClick={() => {
+                  setCurrentConversation(conversation);
+                }}
+              >
+                <Conversation
+                  data={conversation}
+                  currentUser={user._id}
+                  online={checkOnlineStatus(conversation)}
+                />
+              </div>
+            ))}
+          </div>
+          <User />
+        </div>
+
+        <Conversation />
       </userContext.Provider>
     </div>
   );

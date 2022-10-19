@@ -5,10 +5,7 @@ const createConversation = (req,res) => {
     const {senderId,receverId} = req.body;
     
     ConversationModel.findOne({
-      $or: [
-        { senderId, receverId },
-        { receverId, senderId},
-      ],
+      participants: {$all:[senderId,receverId]}
     }).then((result)=>{
         if(result !== null){
             res.status(400).json({
