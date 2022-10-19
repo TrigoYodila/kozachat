@@ -27,7 +27,6 @@ const Protected = () => {
   const [currentConversation, setCurrentConversation] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
-  
 
   useEffect(() => {
     const getConversations = async () => {

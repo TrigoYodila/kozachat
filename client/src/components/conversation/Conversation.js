@@ -10,6 +10,7 @@ import profileuser from "../../Assets/images/user.png";
 import { getMessages } from "../../api/MessagesRequest";
 import {format} from 'timeago.js';
 import {io} from 'socket.io-client';
+import { addMessage } from "../../api/MessagesRequest";
 
 const Conversation = ({ conversation, currentUserId }) => {
   const [{ user }] = useStateValue();
@@ -29,8 +30,6 @@ const Conversation = ({ conversation, currentUserId }) => {
   //     setOnlineUsers(users);
   //   })
   // },[user])
-
-
 
   //get Data for header
   useEffect(() => {
@@ -58,65 +57,84 @@ const Conversation = ({ conversation, currentUserId }) => {
       try {
         const { data } = await getMessages(conversation._id);
         setMessages(data);
-        console.log("messages data", data)
+        console.log("messages data", data);
       } catch (error) {
         console.log(error);
       }
     };
 
     if (conversation !== null) takeMessages();
-  },[conversation]);
+  }, [conversation]);
 
   const handleChange = (newMessage) => {
-    setNewMessage(newMessage)
-  }
+    setNewMessage(newMessage);
+  };
+
+  // Send Message
+  const handleSend = async (e) => {
+    e.preventDefault();
+    const message = {
+      senderId: currentUserId,
+      content: newMessage,
+      chatId: conversation._id,
+    };
+   
+    try {
+      const { data } = await addMessage(message);
+      console.log(data)
+      setMessages([...messages, data]);
+      setNewMessage("");
+      console.log("recu!!!!!!!!!!!!!")
+    } catch {
+      console.log("error");
+    }
+  };
 
   return (
     <div className="conversation-container">
-      {
-        conversation ? (
-          <>
-            <div className="conversation-header">
-        <div className="follower">
-          <div>
-            <img
-              src={profileuser}
-              alt=""
-              style={{ width: "50px", height: "50px" }}
-            />
-            <div className="name">
-              <span>{userData?.username}</span>
-              <span>online</span>
+      {conversation ? (
+        <>
+          <div className="conversation-header">
+            <div className="follower">
+              <div>
+                <img
+                  src={profileuser}
+                  alt=""
+                  style={{ width: "50px", height: "50px" }}
+                />
+                <div className="name">
+                  <span>{userData?.username}</span>
+                  <span>online</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="conversation-body">
-        {messages.map((message, index) => (
-          <div className={message.senderId === currentUserId ? "message" : "message own"}>
-            <span>{message.content}</span>
-            <span>{format(message.createdAt)}</span>
+          <div className="conversation-body">
+            {messages.map((message, index) => (
+              <div
+                className={
+                  message.senderId === currentUserId ? "message" : "message own"
+                }
+              >
+                <span>{message.content}</span>
+                <span>{format(message.createdAt)}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      <div className="conversation-sender">
-        <div>+</div>
-        <InputEmoji
-        value={newMessage}
-        onChange={handleChange}
-        />
-        <div className="send-button button">envoyer</div>
-        <input type="file" name="" id="" />
-      </div>
-          </>
-        ) : (
-          <span className="message-empty">
-            Demarrer une conversation
-          </span>
-        )
-      }
+          <div className="conversation-sender">
+            <div>+</div>
+            <InputEmoji value={newMessage} onChange={handleChange} />
+            <div className="send-button button" onClick={handleSend}>
+              envoyer
+            </div>
+            <input type="file" name="" id="" />
+          </div>
+        </>
+      ) : (
+        <span className="message-empty">Demarrer une conversation</span>
+      )}
     </div>
   );
 };
