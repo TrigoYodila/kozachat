@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../conversation/conversation.css";
 import Messages from "../../Messages";
 import InputEmoji from "react-input-emoji";
@@ -8,8 +8,7 @@ import userContext from "../Protected/userContext";
 import { useStateValue } from "../../reducers/StateProvider";
 import profileuser from "../../Assets/images/user.png";
 import { getMessages } from "../../api/MessagesRequest";
-import {format} from 'timeago.js';
-import {io} from 'socket.io-client';
+import { format } from "timeago.js";
 import { addMessage } from "../../api/MessagesRequest";
 
 const Conversation = ({ conversation, currentUserId }) => {
@@ -22,14 +21,6 @@ const Conversation = ({ conversation, currentUserId }) => {
   console.log("conver data", conversation);
   console.log("current user Id conversation", currentUserId);
   console.log("user data clicked", userData);
-
-  // useEffect(()=>{
-  //   socket.current = io('http://localhost:8800');
-  //   socket.current.emit("new-user-add");
-  //   socket.current.on('get-users', (users)=>{
-  //     setOnlineUsers(users);
-  //   })
-  // },[user])
 
   //get Data for header
   useEffect(() => {
@@ -70,24 +61,30 @@ const Conversation = ({ conversation, currentUserId }) => {
     setNewMessage(newMessage);
   };
 
-  // Send Message
   const handleSend = async (e) => {
     e.preventDefault();
+
     const message = {
       senderId: currentUserId,
       content: newMessage,
-      chatId: conversation._id,
+      conversationId: conversation._id,
     };
-   
+
+    //send message to database
+
     try {
-      const { data } = await addMessage(message);
-      console.log(data)
-      setMessages([...messages, data]);
-      setNewMessage("");
-      console.log("recu!!!!!!!!!!!!!")
-    } catch {
-      console.log("error");
+    const response = await addMessage(message);
+    setMessages((prev) => [...prev, response.data]);
+    setNewMessage("")
+    console.log("data ", response);
+    console.log("je me suis executé");
+    }catch(error){
+
+      console.log("je ne suis pas executé ", error)
     }
+
+    console.log("messages", messages);
+    console.log("new message", newMessage);
   };
 
   return (

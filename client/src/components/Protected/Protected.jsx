@@ -43,9 +43,9 @@ const Protected = () => {
     setCurrentUserId(user._id);
     // axios.get(`http://localhost:5000/conversation/${user._id}`)
     // .then(data=>console.log("mes data ", data));
-  }, [user]);
+  }, [user._id]);
 
-  // Connect to Socket.io
+  // // Connect to Socket.io
   useEffect(() => {
     socket.current = io("ws://localhost:8800");
     socket.current.emit("new-user-add", user._id);

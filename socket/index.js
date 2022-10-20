@@ -8,7 +8,7 @@
 
  io.on("connection", (socket) => {
     // add new user 
-    socket.on('new-user-add', (newUserId)=>{
+    socket.on('new-user-add', (newUserId) => {
         //if user is not added previosly (test si l'utilisateur n'est pas dans le liste)
         if(!activeUsers.some((user) => user.userId === newUserId)){
             activeUsers.push({
@@ -18,7 +18,6 @@
             console.log("New User connected", activeUsers);
         }
         //send data to client-side
-       
         io.emit('get-users', activeUsers)
     });
 
