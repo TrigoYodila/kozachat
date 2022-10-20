@@ -11,7 +11,7 @@ import { getMessages } from "../../api/MessagesRequest";
 import { format } from "timeago.js";
 import { addMessage } from "../../api/MessagesRequest";
 
-const Conversation = ({ conversation, currentUserId }) => {
+const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessage }) => {
   const [{ user }] = useStateValue();
 
   const [userData, setUserData] = useState(null);
@@ -21,6 +21,15 @@ const Conversation = ({ conversation, currentUserId }) => {
   console.log("conver data", conversation);
   console.log("current user Id conversation", currentUserId);
   console.log("user data clicked", userData);
+
+
+  useEffect(()=>{
+
+    if(receiveMessage !== null && receiveMessage.conversationId === conversation._id )
+    setMessages((prev) => [...prev, receiveMessage])
+  },[receiveMessage])
+
+
 
   //get Data for header
   useEffect(() => {
@@ -73,18 +82,18 @@ const Conversation = ({ conversation, currentUserId }) => {
     //send message to database
 
     try {
-    const response = await addMessage(message);
-    setMessages((prev) => [...prev, response.data]);
-    setNewMessage("")
-    console.log("data ", response);
-    console.log("je me suis executé");
-    }catch(error){
+      const { data } = await addMessage(message);
+      setMessages((prev) => [...prev, data]);
+      setNewMessage("");
 
-      console.log("je ne suis pas executé ", error)
+    } catch (error) {
+      console.log("error");
     }
 
-    console.log("messages", messages);
-    console.log("new message", newMessage);
+    //send message to socket server
+    const receverId = conversation.participants.find((id)=> id !== currentUserId)
+    setSendMessage({...message, receverId})
+
   };
 
   return (

@@ -25,7 +25,24 @@ const Protected = () => {
   const [conversation, setConversation] = useState([]);
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentConversation, setCurrentConversation] = useState(null);
+  const [sendMessage, setSendMessage] = useState(null)
+  const [receiveMessage, setReceiveMessage] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([]);
+
+
+  //send message to socket server
+  useEffect(()=>{
+    if(sendMessage !== null){
+      socket.current.emit('send-message', sendMessage)
+    }
+  },[sendMessage])
+
+  //receive Message from socket server
+  //  useEffect(() => {
+  //    socket.current.on("receive-message", (data)=>{
+  //     setReceiveMessage(data)
+  //    })
+  //  }, []);
 
 
   useEffect(() => {
@@ -69,6 +86,12 @@ const Protected = () => {
         console.log(err);
         navigate("/login");
       });
+
+    //receive Message from socket server
+    socket.current.on("receive-message", (data) => {
+      setReceiveMessage(data);
+    });
+
   }, []);
 
   const checkOnlineStatus = (conversation) => {
@@ -109,6 +132,8 @@ const Protected = () => {
         <Conversation
           conversation={currentConversation}
           currentUserId={currentUserId}
+          setSendMessage={setSendMessage}
+          receiveMessage = {receiveMessage}
         />
       </userContext.Provider>
     </div>
