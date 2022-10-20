@@ -11,12 +11,14 @@ import { getMessages } from "../../api/MessagesRequest";
 import { format } from "timeago.js";
 import { addMessage } from "../../api/MessagesRequest";
 
+
 const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessage }) => {
   const [{ user }] = useStateValue();
 
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const scroll = useRef();
 
   console.log("conver data", conversation);
   console.log("current user Id conversation", currentUserId);
@@ -96,6 +98,12 @@ const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessa
 
   };
 
+
+  // scroll always to last message
+  useEffect(()=>{
+    scroll.current?.scrollIntoView({behavior:"smooth"})
+  },[messages])
+
   return (
     <div className="conversation-container">
       {conversation ? (
@@ -118,7 +126,7 @@ const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessa
 
           <div className="conversation-body">
             {messages.map((message, index) => (
-              <div
+              <div ref = {scroll}
                 className={
                   message.senderId === currentUserId ? "message" : "message own"
                 }

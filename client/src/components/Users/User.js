@@ -1,21 +1,22 @@
-import React,{useContext, useEffect, useState} from 'react'
-import './user.css'
-import userContext from '../Protected/userContext';
+import React, { useContext, useEffect, useState } from "react";
+import "./user.css";
+import userContext from "../Protected/userContext";
 import { getaUser } from "../../api/UserRequest";
 import profileuser from "../../Assets/images/user.png";
 
-const User = (data,online) => {
+const User = ({ data, online }) => {
   const { currentUserId } = useContext(userContext);
   const [userData, setUserData] = useState(null);
 
-  console.log("data user", data.data);
-  console.log("current user", currentUserId);
-  
-  useEffect(() => {
-    const userId = data?.data?.participants?.find((id) => id !== currentUserId);
-    // console.log("userId", userId);
-    // console.log("participants", conversation.participants);
+  // console.log("data user", data.data);
+  // console.log("current user", currentUserId);
+  // console.log("je suis online", online);
 
+  useEffect(() => {
+    const userId = data?.participants?.find((id) => id !== currentUserId);
+
+    // // console.log("userId", userId);
+    // // console.log("participants", conversation.participants);
     const getUserData = async () => {
       try {
         const { data } = await getaUser(userId);
@@ -31,7 +32,7 @@ const User = (data,online) => {
   return (
     <>
       <div className="follower conversation">
-        <div className='conversation-user'>
+        <div className="conversation-user">
           {online && <div className="online-dot"></div>}
           <img
             src={profileuser}
@@ -41,9 +42,9 @@ const User = (data,online) => {
           />
           <div className="name" style={{ fontSize: "1rem" }}>
             <span>{userData?.username}</span>
-            {/* <span style={{ color: online ? "#51e200" : "" }}>
+            <span style={{ color: online ? "#51e200" : "" }}>
               {online ? "Online" : "Offline"}
-            </span> */}
+            </span>
           </div>
         </div>
       </div>
@@ -52,4 +53,4 @@ const User = (data,online) => {
   );
 };
 
-export default User
+export default User;

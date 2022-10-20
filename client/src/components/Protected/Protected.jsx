@@ -10,10 +10,9 @@ import { useStateValue } from "../../reducers/StateProvider";
 import { userConversation } from "../../api/ConversationRequest";
 import userContext from "./userContext";
 import { getaUser } from "../../api/UserRequest";
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
 
 const Protected = () => {
-
   const navigate = useNavigate();
 
   // const userdatacontext = useContext(userContext);
@@ -25,17 +24,17 @@ const Protected = () => {
   const [conversation, setConversation] = useState([]);
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentConversation, setCurrentConversation] = useState(null);
-  const [sendMessage, setSendMessage] = useState(null)
-  const [receiveMessage, setReceiveMessage] = useState(null)
+  const [sendMessage, setSendMessage] = useState(null);
+  const [receiveMessage, setReceiveMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
-
+  console.log("mes conversations", conversation);
   //send message to socket server
-  useEffect(()=>{
-    if(sendMessage !== null){
-      socket.current.emit('send-message', sendMessage)
+  useEffect(() => {
+    if (sendMessage !== null) {
+      socket.current.emit("send-message", sendMessage);
     }
-  },[sendMessage])
+  }, [sendMessage]);
 
   //receive Message from socket server
   //  useEffect(() => {
@@ -43,7 +42,6 @@ const Protected = () => {
   //     setReceiveMessage(data)
   //    })
   //  }, []);
-
 
   useEffect(() => {
     const getConversations = async () => {
@@ -71,6 +69,7 @@ const Protected = () => {
     });
   }, [user]);
 
+  console.log("online users ", onlineUsers);
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
@@ -91,15 +90,25 @@ const Protected = () => {
     socket.current.on("receive-message", (data) => {
       setReceiveMessage(data);
     });
-
   }, []);
 
   const checkOnlineStatus = (conversation) => {
+    // console.log("Online executé", conversation.participants)
     const chatMember = conversation.participants.find(
       (member) => member !== user._id
     );
+    console.log("chat member", chatMember);
+    // console.log("Chat Member", onlineUsers);
     const online = onlineUsers.find((user) => user.userId === chatMember);
-    return online ? true : false;
+    console.log("ONLINE OFF", online);
+    // return online ? false : true;
+    if (online === undefined) {
+      console.log("pas en ligne");
+      return false;
+    } else {
+      console.log("en ligne");
+      return true;
+    }
   };
 
   // console.log("user current Id", currentUserId)
@@ -114,18 +123,18 @@ const Protected = () => {
           </div>
           <h1>Recent</h1>
           <div className="recent-user-info">
-            {conversation.map((conversation) => (
-              <div
-                onClick={() => {
-                  setCurrentConversation(conversation);
-                }}
-              >
-                <User
-                  data={conversation}
-                  online={checkOnlineStatus(conversation)}
-                />
-              </div>
-            ))}
+            {conversation.map((conversation) => {
+              const isOnline = checkOnlineStatus(conversation);
+              return (
+                <div
+                  onClick={() => {
+                    setCurrentConversation(conversation);
+                  }}
+                >
+                  <User data={conversation} online={isOnline} />
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -133,7 +142,7 @@ const Protected = () => {
           conversation={currentConversation}
           currentUserId={currentUserId}
           setSendMessage={setSendMessage}
-          receiveMessage = {receiveMessage}
+          receiveMessage={receiveMessage}
         />
       </userContext.Provider>
     </div>

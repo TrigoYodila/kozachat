@@ -18,7 +18,7 @@
             console.log("New User connected", activeUsers);
         }
         //send data to client-side
-        io.emit('get-users', activeUsers)
+        io.emit("get-users", activeUsers)
     });
 
     //send message
