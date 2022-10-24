@@ -27,6 +27,7 @@ const User = ({ data, online }) => {
       }
     };
     getUserData();
+    
   }, []);
 
   return (

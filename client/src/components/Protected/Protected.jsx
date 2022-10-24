@@ -27,13 +27,14 @@ const Protected = () => {
   const [conversation, setConversation] = useState([]);
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentConversation, setCurrentConversation] = useState(null);
+  const [currentConversationcontact, setCurrentConversationContact] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [clickedLink, setClickedLink] = useState(false)
 
-  console.log("mes conversations", conversation);
-  console.log("current conversation protected", currentConversation)
+  // console.log("mes conversations", conversation);
+  console.log("CURRENT CONVESATION", currentConversation)
 
   //send message to socket server
   useEffect(() => {
@@ -97,7 +98,7 @@ const Protected = () => {
     socket.current.on("receive-message", (data) => {
       setReceiveMessage(data);
     });
-    
+
   }, []);
 
   const checkOnlineStatus = (conversation) => {
@@ -157,6 +158,7 @@ const Protected = () => {
               })
             ) : (
               <Contact
+                // conversation = {conversation}
                 setCurrentConversation={setCurrentConversation}
                 checkOnlineStatus={checkOnlineStatus}
                 currentConversation={currentConversation}

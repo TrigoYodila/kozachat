@@ -1,24 +1,29 @@
-import React,{useContext, useState,useEffect} from 'react'
-import profileuser from "../../Assets/images/user.png"
+import React, { useContext, useState, useEffect } from "react";
+import profileuser from "../../Assets/images/user.png";
 import userContext from "../Protected/userContext";
 import "../Users/user.css";
-import { getaAllUsers } from '../../api/UserRequest';
-import { useStateValue } from '../../reducers/StateProvider';
+import { getaAllUsers } from "../../api/UserRequest";
+import { useStateValue } from "../../reducers/StateProvider";
+import { findSpecifiqueConversation } from "../../api/ConversationRequest";
 
 const Contact = ({
-  currentConversation,setCurrentConversation,
+  currentConversation,
+  setCurrentConversation,
   checkOnlineStatus,
+  conversation,
 }) => {
   const [{ user }] = useStateValue();
   const { currentUserId } = useContext(userContext);
   const [allUsersData, setAllUsersData] = useState(null);
   const [getdata, setGetData] = useState(false);
+  const [getuserconvesation, setGetUserConversation] = useState(null);
 
   // const [allUsersData, setAllUsersData] = useState(null);
 
-  console.log("all users contact ", allUsersData);
-  console.log("current user contact contact", currentConversation);
-  
+  console.log("courant conversation", currentConversation);
+  // console.log("current user contact contact", currentConversation);
+  // console.log("current user", user._i)
+
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -33,6 +38,20 @@ const Contact = ({
     getUserData();
   }, []);
 
+  const UserInConversation = async (user) => {
+     try {
+       const { data } = await findSpecifiqueConversation(
+         currentUserId,
+         user._id
+       );
+       console.log("VRAI conversation", data);
+        setCurrentConversation(data);
+     } catch (error) {
+       console.log(error);
+     }
+  };
+
+  
   return (
     <>
       {getdata &&
@@ -41,7 +60,7 @@ const Contact = ({
           return (
             <div
               onClick={() => {
-                setCurrentConversation(user);
+                UserInConversation(user);
               }}
             >
               {/* <Contact setAllUsersData={setAllUsersData} allUsersData={allUsersData} online={isOnline}/> */}
@@ -70,4 +89,4 @@ const Contact = ({
   );
 };
 
-export default Contact
+export default Contact;
