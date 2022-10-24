@@ -1,6 +1,7 @@
 .sidebar-container {
   background: var(--blue);
   border-radius: 1rem;
+  position: relative;
   /* display: flex;
     flex-direction: column;
     /* justify-content: center; */
@@ -26,6 +27,21 @@
   align-items: center;
 }
 
+.sidebar-logout{
+  position: absolute;
+  bottom: 2rem;
+  left:3.9rem;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.sidebar-logout .span{
+  font-size: 3rem;
+  cursor: pointer;
+}
+
 .user-icons-container {
   display: flex;
   flex-direction: column;
@@ -48,7 +64,7 @@
 }
 
 .user-icons span{
-    font-size: 3.5rem;
+    font-size: 3rem;
     color: white;
 }
 
@@ -61,11 +77,9 @@
     background:var(--yellow)
 }
 
-.sidebar-logout{
-
-}
 
 .sidebar-logout span{
     color: white;
-    font-size: 4rem;
+    font-size: 3.5rem;
+    cursor: pointer;
 }
