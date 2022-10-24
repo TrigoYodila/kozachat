@@ -8,8 +8,8 @@ import userContext from "../Protected/userContext";
 import { useStateValue } from "../../reducers/StateProvider";
 import profileuser from "../../Assets/images/user.png";
 import { getMessages } from "../../api/MessagesRequest";
-import { format } from "timeago.js";
 import { addMessage } from "../../api/MessagesRequest";
+// import {format} from 'timeago.js';
 
 
 const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessage }) => {
@@ -122,23 +122,30 @@ const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessa
                 </div>
               </div>
             </div>
+            <hr
+              style={{
+                width: "95%",
+                border: "1px solid rgb(207, 207, 207)",
+                marginTop: "10px",
+              }}
+            />
           </div>
 
           <div className="conversation-body">
             {messages.map((message, index) => (
-              <div ref = {scroll}
+              <div
+                ref={scroll}
                 className={
                   message.senderId === currentUserId ? "message" : "message own"
                 }
               >
-                <span>{message.content}</span>
-                <span>{format(message.createdAt)}</span>
+                <span className="text">{message.content}</span>
+                <span>{message.createdAt}</span>
               </div>
             ))}
           </div>
 
           <div className="conversation-sender">
-            <div>+</div>
             <InputEmoji value={newMessage} onChange={handleChange} />
             <div className="send-button button" onClick={handleSend}>
               envoyer

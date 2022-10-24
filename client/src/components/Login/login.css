@@ -1,8 +1,28 @@
 .container {
-  height: 100vh;
+  /* height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center; */
+  position: relative;
+  background: url("../../Assets/images/bannere4.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.form-blour{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
 }
 
 .login-left {
@@ -27,8 +47,20 @@ form {
   flex-direction: column;
   padding: 5rem 4rem;
   border-radius: 2rem;
+  z-index: 10;
   /* box-shadow: var(--box-shadow); */
 }
+
+.error-message{
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: red;
+  margin-top: 0.2rem;
+}
+
+
+
+
 
 .inputs {
   display: flex;

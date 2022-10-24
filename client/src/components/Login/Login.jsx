@@ -14,7 +14,6 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [clicked, setClicked] = useState(false);
-  // const [authuser, setAuthuser] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,9 +45,9 @@ const Login = () => {
         localStorage.setItem("token", user.data.token);
         dispatch({
           type: "GET_USER",
-          user:user.data.user
+          user: user.data.user,
         });
-        navigate("/protected")
+        navigate("/protected");
       })
       .catch((err) => {
         console.log(err);
@@ -64,21 +63,16 @@ const Login = () => {
   ) : (
     <div className="container">
       <form action="">
-        <div className="login-left">
-          <span>
-            <FaUserCircle />
-          </span>
-        </div>
         <div className="inputs">
           <input
             type="text"
-            placeholder="username"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
-            placeholder="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -86,7 +80,7 @@ const Login = () => {
 
         <div className="buttons">
           <button onClick={submit} className="btn-connect">
-            Se connecter
+            SE CONNECTER
           </button>
           <div>
             <p>
@@ -97,6 +91,7 @@ const Login = () => {
           </div>
         </div>
       </form>
+      <div className="form-blour"></div>
     </div>
   );
 

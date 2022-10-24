@@ -11,6 +11,9 @@ import { userConversation } from "../../api/ConversationRequest";
 import userContext from "./userContext";
 import { getaUser } from "../../api/UserRequest";
 import { io } from "socket.io-client";
+import { FiSearch } from "react-icons/fi";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import Contact from "../Contact/Contact";
 
 const Protected = () => {
   const navigate = useNavigate();
@@ -27,8 +30,11 @@ const Protected = () => {
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [clickedLink, setClickedLink] = useState(false)
 
   console.log("mes conversations", conversation);
+  console.log("current conversation protected", currentConversation)
+
   //send message to socket server
   useEffect(() => {
     if (sendMessage !== null) {
@@ -70,6 +76,7 @@ const Protected = () => {
   }, [user]);
 
   console.log("online users ", onlineUsers);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
@@ -90,6 +97,7 @@ const Protected = () => {
     socket.current.on("receive-message", (data) => {
       setReceiveMessage(data);
     });
+    
   }, []);
 
   const checkOnlineStatus = (conversation) => {
@@ -115,26 +123,45 @@ const Protected = () => {
   return (
     <div className="chat-container">
       <userContext.Provider value={{ user, conversation, currentUserId }}>
-        <Sidebar user={user} />
+        <Sidebar
+          user={user}
+          clickedLink={clickedLink}
+          setClickedLink={setClickedLink}
+        />
 
         <div className="user-container">
           <div className="user-search">
+            <span>
+              <FiSearch size={18} />
+            </span>
             <input type="text" placeholder="Search" />
+            <span>
+              <BsThreeDotsVertical size={15} color="#1966ff" />
+            </span>
           </div>
-          <h1>Recent</h1>
+
           <div className="recent-user-info">
-            {conversation.map((conversation) => {
-              const isOnline = checkOnlineStatus(conversation);
-              return (
-                <div
-                  onClick={() => {
-                    setCurrentConversation(conversation);
-                  }}
-                >
-                  <User data={conversation} online={isOnline} />
-                </div>
-              );
-            })}
+            <h1>{clickedLink === false ? "Recent" : "Contacts"}</h1>
+            {clickedLink === false ? (
+              conversation.map((conversation) => {
+                const isOnline = checkOnlineStatus(conversation);
+                return (
+                  <div
+                    onClick={() => {
+                      setCurrentConversation(conversation);
+                    }}
+                  >
+                    <User data={conversation} online={isOnline} />
+                  </div>
+                );
+              })
+            ) : (
+              <Contact
+                setCurrentConversation={setCurrentConversation}
+                checkOnlineStatus={checkOnlineStatus}
+                currentConversation={currentConversation}
+              />
+            )}
           </div>
         </div>
 

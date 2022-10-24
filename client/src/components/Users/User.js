@@ -38,17 +38,16 @@ const User = ({ data, online }) => {
             src={profileuser}
             alt="Profile"
             className="followerImage"
-            style={{ width: "50px", height: "50px" }}
+            style={{ width: "70px", height: "70px" }}
           />
           <div className="name" style={{ fontSize: "1rem" }}>
             <span>{userData?.username}</span>
-            <span style={{ color: online ? "#51e200" : "" }}>
-              {online ? "Online" : "Offline"}
-            </span>
+            {/* <span style={{ color: online ? "#51e200" : "" }}>{online ? "Online" : "Offline"}</span> */}
+            <small>last message</small>
           </div>
         </div>
       </div>
-      <hr style={{ width: "85%", border: "0.1px solid #ececec" }} />
+      <hr />
     </>
   );
 };

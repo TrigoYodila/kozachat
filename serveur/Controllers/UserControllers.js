@@ -36,4 +36,41 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-module.exports = { getaUser, getAllUsers };
+//add User 
+
+const addUser = (req, res) => {
+
+  const { username, password } = req.body;
+
+  const newUser = new UserModel({
+    username,
+    password
+  })
+
+  newUser.save()
+  .then((user)=>{
+    res.status(201).json({
+      message:"user created",
+      user
+    })
+  }).catch((error)=>{res.status(400).json(error)})
+}
+
+// Get all users
+const getaAllUsers = async (req, res) => {
+
+  try {
+    let users = await UserModel.find({
+      _id: { $ne: req.params.id },
+    });
+    users = users.map((user)=>{
+      const {password, ...otherDetails} = user._doc
+      return otherDetails
+    })
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports = { getaUser, getAllUsers, getaAllUsers, addUser };

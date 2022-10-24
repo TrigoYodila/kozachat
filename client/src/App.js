@@ -5,6 +5,8 @@ import Conversation from "./components/conversation/Conversation";
 import { useEffect, useState } from "react";
 import { useStateValue } from "./reducers/StateProvider";
 import axios from "axios";
+import Started from "./components/Login/Started";
+import Register from "./components/Login/Register";
 
 function App() {
   // const navigate = useNavigate();
@@ -56,7 +58,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Started />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/protected" element={<Protected />} />
         <Route path="/chat" element={<Conversation />} />
       </Routes>
