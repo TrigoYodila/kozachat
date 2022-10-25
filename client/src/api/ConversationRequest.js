@@ -1,7 +1,9 @@
-import axios from 'axios';
+/* eslint-disable object-curly-spacing */
+import axios from 'axios'
 
-const API = axios.create({baseURL:'http://localhost:5000'})
+const API = axios.create({ baseURL: 'http://localhost:5000' })
 
-export const userConversation = (id) => API.get(`/conversation/${id}`);
+export const userConversation = (id) => API.get(`/conversation/${id}`)
 
-export const findSpecifiqueConversation = (firstId, secindId) => API.get(`/conversation/find/${firstId}/${secindId}`);
+// eslint-disable-next-line prettier/prettier
+export const findSpecifiqueConversation = (firstId, secindId) => API.get(`/conversation/find/${firstId}/${secindId}`)

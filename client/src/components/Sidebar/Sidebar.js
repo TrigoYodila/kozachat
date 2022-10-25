@@ -1,32 +1,34 @@
-import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import "./sidebar.css";
-import profileuser from "../../Assets/images/user.png";
-import { useStateValue } from "../../reducers/StateProvider";
-import { BsChatDotsFill } from "react-icons/bs";
-import { BsPersonCircle } from "react-icons/bs";
-import { RiLogoutBoxRFill } from "react-icons/ri";
-import { IoLogOut } from "react-icons/io5";
-import { RiLogoutBoxFill } from "react-icons/ri";
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/jsx-no-comment-textnodes */
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import './sidebar.css'
+// eslint-disable-next-line import/order
+import { BsChatDotsFill, BsPersonCircle } from 'react-icons/bs'
+import profileuser from '../../Assets/images/user.png'
+// eslint-disable-next-line import/order
+import { useStateValue } from '../../reducers/StateProvider'
+// eslint-disable-next-line import/no-duplicates, import/order
+import { RiLogoutBoxFill } from 'react-icons/ri'
 
-const Sidebar = ({ clickedLink, setClickedLink }) => {
-  const [{ user }] = useStateValue();
-  const navigate = useNavigate();
-
-  console.log("sidebar-user", user);
+// eslint-disable-next-line react/prop-types
+function Sidebar({ clickedLink, setClickedLink }) {
+  const [{ user }] = useStateValue()
+  const navigate = useNavigate()
 
   const handleClicked = () => {
-    setClickedLink(false);
-  };
+    setClickedLink(false)
+  }
 
   const handleClickedContact = () => {
-    setClickedLink(true);
-  };
+    setClickedLink(true)
+  }
 
   const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+    localStorage.removeItem('token')
+    navigate('/login')
+  }
 
   return (
     <div className="sidebar-container">
@@ -35,26 +37,26 @@ const Sidebar = ({ clickedLink, setClickedLink }) => {
           <img src={profileuser} alt="" />
           <p>{user?.username}</p>
         </div>
-
         <div className="user-icons-container">
           <div
             className={
-              clickedLink === false ? "user-icons active" : "user-icons"
+              clickedLink === false ? 'user-icons active' : 'user-icons'
             }
             onClick={handleClicked}
+            aria-hidden="true"
           >
-            <div className="right-bar"></div>
+            <div className="right-bar"> </div>
             <span className="message-icon">
               <BsChatDotsFill />
             </span>
           </div>
           <div
             className={
-              clickedLink === true ? "user-icons active" : "user-icons"
+              clickedLink === true ? 'user-icons active' : 'user-icons'
             }
             onClick={handleClickedContact}
           >
-            <div className="right-bar"></div>
+            <div className="right-bar"> </div>
             <span className="message-icon">
               <BsPersonCircle />
             </span>
@@ -63,11 +65,11 @@ const Sidebar = ({ clickedLink, setClickedLink }) => {
       </div>
       <div className="sidebar-logout">
         <span>
-          <RiLogoutBoxFill onClick={logout} cursor/>
+          <RiLogoutBoxFill onClick={logout} cursor />
         </span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

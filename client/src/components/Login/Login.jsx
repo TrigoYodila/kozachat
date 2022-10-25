@@ -1,62 +1,57 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import "./login.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
-import Register from "./Register";
-import { useStateValue } from "../../reducers/StateProvider";
+import React, { useState, useEffect } from 'react'
+import './login.css'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import Register from './Register'
+import { useStateValue } from '../../reducers/StateProvider'
 
 const Login = () => {
-  const [{ user }, dispatch] = useStateValue();
+  // eslint-disable-next-line object-curly-spacing
+  const [{ user }, dispatch] = useStateValue()
 
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [clicked, setClicked] = useState(false);
+  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [clicked, setClicked] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
+    const token = localStorage.getItem('token')
     axios
-      .get("http://localhost:5000/auth/protected", {
+      .get('http://localhost:5000/auth/protected', {
         headers: {
           Authorization: token,
         },
       })
-      .then((res) => {
-        console.log(res);
-        navigate("/protected");
+      .then(() => {
+        navigate('/protected')
       })
-      .catch((err) => {
-        console.log(err);
-        navigate("/login");
-      });
-  }, []);
+      .catch(() => {
+        navigate('/login')
+      })
+  }, [])
 
-  console.log("valeur ", user);
-
+  console.log('user', user)
   const submit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     axios
-      .post("http://localhost:5000/auth/login", { username, password })
-      .then((user) => {
-        localStorage.setItem("token", user.data.token);
+      .post('http://localhost:5000/auth/login', { username, password })
+      .then((myuser) => {
+        localStorage.setItem('token', myuser.data.token)
         dispatch({
-          type: "GET_USER",
-          user: user.data.user,
-        });
-        navigate("/protected");
+          type: 'GET_USER',
+          user: myuser.data.user,
+        })
+        navigate('/protected')
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+      .catch(() => {
+        // error
+      })
+  }
 
   const handleClicked = () => {
-    setClicked(true);
-  };
+    setClicked(true)
+  }
 
   const display = clicked ? (
     <Register />
@@ -79,23 +74,24 @@ const Login = () => {
         </div>
 
         <div className="buttons">
-          <button onClick={submit} className="btn-connect">
+          <button onClick={submit} type="submit" className="btn-connect">
             SE CONNECTER
           </button>
           <div>
             <p>
-              {" "}
-              Vous n'avez pas de compte ?{" "}
-              <span onClick={handleClicked}>créer un compte</span>
+              Vous n&apos avez pas de compte ?
+              <span onClick={handleClicked} aria-hidden="true">
+                créer un compte
+              </span>
             </p>
           </div>
         </div>
       </form>
-      <div className="form-blour"></div>
+      <div className="form-blour"> </div>
     </div>
-  );
+  )
 
-  return display;
-};
+  return display
+}
 
-export default Login;
+export default Login
