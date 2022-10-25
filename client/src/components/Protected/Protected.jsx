@@ -28,6 +28,7 @@ const Protected = () => {
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentConversation, setCurrentConversation] = useState(null);
   const [currentConversationcontact, setCurrentConversationContact] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -172,6 +173,8 @@ const Protected = () => {
           currentUserId={currentUserId}
           setSendMessage={setSendMessage}
           receiveMessage={receiveMessage}
+          messages = {messages}
+          setMessages = {setMessages}
         />
       </userContext.Provider>
     </div>

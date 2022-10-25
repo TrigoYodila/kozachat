@@ -1,30 +1,29 @@
-.user-container{
-    /* border: 2px solid green; */
-
+.user-container {
+  /* border: 2px solid green; */
 }
 
-.follower{
-    width: 100%;
-    padding: 0rem;
+.follower {
+  width: 100%;
+  padding: 0rem;
 }
 
-hr{
-    border: 0.05px solid var(--grise);
+hr {
+  border: 0.05px solid var(--grise);
 }
 
-span{
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: rgba(0,0,0,0.9);
+span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  /* color: rgba(0,0,0,0.9); */
 }
 
-small{
-    font-weight: 400;
-    color: rgba(0,0,0,0.7);
-    font-size: 1rem;
+small {
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 1rem;
 }
 
-.name{
-    display: flex;
-    gap: 0.5rem;
+.name {
+  display: flex;
+  gap: 0.5rem;
 }

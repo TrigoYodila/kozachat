@@ -9,7 +9,7 @@ const Started = () => {
       <div className="started-link">
         <div className="title">
             <h1>KOZACHAT</h1>
-            <p>La causerie devient </p>
+            <p>Chaté n'importe quand, n'imprte où.</p>
         </div>
         <div className="link-block">
             <NavLink to="/login" className="link">SE CONNECTER</NavLink>

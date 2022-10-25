@@ -12,11 +12,11 @@ import { addMessage } from "../../api/MessagesRequest";
 // import {format} from 'timeago.js';
 
 
-const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessage }) => {
+const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessage,messages, setMessages }) => {
   const [{ user }] = useStateValue();
 
   const [userData, setUserData] = useState(null);
-  const [messages, setMessages] = useState([]);
+  // const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const scroll = useRef();
 
@@ -133,15 +133,17 @@ const Conversation = ({ conversation, currentUserId, setSendMessage,receiveMessa
 
           <div className="conversation-body">
             {messages.map((message, index) => (
-              <div
-                ref={scroll}
-                className={
-                  message.senderId === currentUserId ? "message" : "message own"
-                }
-              >
-                <span className="text">{message.content}</span>
-                <span>{message.createdAt}</span>
-              </div>
+              <>
+                <div
+                  ref={scroll}
+                  className={
+                    message.senderId === currentUserId ? "message" : "own"
+                  }
+                >
+                  <span className="text">{message.content}</span>
+                  <small className="date date-own">{message.createdAt}</small>
+                </div>
+              </>
             ))}
           </div>
 
