@@ -1,24 +1,28 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import "./started.css";
-// import { banniere } from "../../Assets/images/bannere2.jpg";
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import './started.css'
+// import { banniere } from "../../Assets/images/bannere2.jpg"
 
-const Started = () => {
+function Started() {
   return (
     <div className="started-container">
       <div className="started-link">
         <div className="title">
-            <h1>KOZACHAT</h1>
-            <p>Chaté n'importe quand, n'imprte où.</p>
+          <h1>KOZACHAT</h1>
+          <p>Chaté n&apos importe quand, n&apos imprte où.</p>
         </div>
         <div className="link-block">
-            <NavLink to="/login" className="link">SE CONNECTER</NavLink>
-            <NavLink to="/register" className="secondary">CREER UN COMPTE</NavLink>
+          <NavLink to="/login" className="link">
+            SE CONNECTER
+          </NavLink>
+          <NavLink to="/register" className="secondary">
+            CREER UN COMPTE
+          </NavLink>
         </div>
       </div>
-      <div className="started-blour"></div>
+      <div className="started-blour"> </div>
     </div>
-  );
-};
+  )
+}
 
-export default Started;
+export default Started
