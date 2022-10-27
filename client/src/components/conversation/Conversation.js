@@ -5,10 +5,12 @@ import React, { useEffect, useState, useRef } from 'react'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
 import { BsCamera } from 'react-icons/bs'
 import { BiSend } from 'react-icons/bi'
+import Picker from 'emoji-picker-react'
 import './conversation.css'
 import { getaUser } from '../../api/UserRequest'
 import profileuser from '../../Assets/images/user.png'
 import { getMessages, addMessage } from '../../api/MessagesRequest'
+
 // import {format} from 'timeago.js';
 
 function Conversation({
@@ -21,7 +23,10 @@ function Conversation({
 }) {
   const [userData, setUserData] = useState(null)
   const [newMessage, setNewMessage] = useState('')
+  // const [inputStr, setInputStr] = useState('')
+  const [showPicker, setShowPicker] = useState(false)
   const scroll = useRef()
+  const inputRef = useRef()
 
   useEffect(() => {
     if (
@@ -95,6 +100,12 @@ function Conversation({
     setSendMessage({ ...message, receverId })
   }
 
+  // emoji function
+  const onEmojiClick = (event) => {
+    setNewMessage((prevInput) => prevInput + event.emoji)
+    setShowPicker(false)
+    inputRef.current.focus()
+  }
   // scroll always to last message
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: 'smooth' })
@@ -156,6 +167,9 @@ function Conversation({
             <div className="search-content">
               <input
                 type="text"
+                ref={inputRef}
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Tapez votre message ici"
                 className="search-input"
                 multiple="true"
@@ -163,11 +177,21 @@ function Conversation({
               />
               <div className="search-icons">
                 <span className="emoji">
-                  <MdOutlineEmojiEmotions />
+                  <MdOutlineEmojiEmotions
+                    onClick={() => setShowPicker((val) => !val)}
+                  />
                 </span>
                 <span className="camera">
                   <BsCamera />
                 </span>
+              </div>
+              <div className="emoji-container">
+                {showPicker && (
+                  <Picker
+                    pickerStyle={{ width: '100%' }}
+                    onEmojiClick={onEmojiClick}
+                  />
+                )}
               </div>
             </div>
             <div className="button" onClick={handleSend} aria-hidden="true">

@@ -153,6 +153,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+}
+
+.emoji-container{
+  position: absolute;
+  right: 8rem;
+  bottom: .5rem;
 }
 
 .search-content .search-input{
