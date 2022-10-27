@@ -69,11 +69,6 @@ function Conversation({
     if (conversation !== null) takeMessages()
   }, [conversation])
 
-  // eslint-disable-next-line no-shadow
-  // const handleChange = (newMessage) => {
-  //   setNewMessage(newMessage)
-  // }
-
   const handleSend = async (e) => {
     e.preventDefault()
 
@@ -151,18 +146,6 @@ function Conversation({
               </div>
             ))}
           </div>
-
-          {/* <div className="conversation-sender">
-            <InputEmoji value={newMessage} onChange={handleChange} />
-            <div
-              className="send-button button"
-              onClick={handleSend}
-              aria-hidden="true"
-            >
-              envoyer
-            </div>
-            <input type="file" name="" id="" />
-          </div> */}
           <div className="search-container">
             <div className="search-content">
               <input
