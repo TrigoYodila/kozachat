@@ -37,6 +37,7 @@ function Protected() {
   // console.log("CURRENT CONVESATION", currentConversation)
 
   // s end message to socket server
+  console.log('USERS CONVERSATION', currentConversation)
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit('send-message', sendMessage)

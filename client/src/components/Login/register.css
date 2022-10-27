@@ -22,7 +22,6 @@ form {
   background: var(--white);
   /* width: 20%; */
   display: flex;
-  flex-direction: column;
   padding: 5rem 4rem;
   border-radius: 2rem;
   /* box-shadow: var(--box-shadow); */
@@ -67,4 +66,14 @@ input {
   color: var(--blue);
   border-bottom: .1rem solid var(--blue);
   padding: 1.5rem 0;
+}
+
+.info-register{
+  display: flex;
+  flex-direction: column;
+}
+
+.register-profil{
+  background: var(--grise);
+  height: fit-content;
 }

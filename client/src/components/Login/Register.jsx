@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react'
 import './register.css'
@@ -9,6 +10,22 @@ function Register() {
   // eslint-disable-next-line no-unused-vars
   const [{ user }, dispatch] = useStateValue()
   const navigate = useNavigate()
+  const [image, setImage] = useState('')
+  const [dataUser, setDataUser] = useState({
+    username: '',
+    password: '',
+    profilepicture: '',
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setDataUser((preventState) => ({ ...preventState, [name]: value }))
+  }
+  console.log('image log', image)
+
+  // FormData
+  // console.log('Data Result', resutData)
+  // get secure
   const [formInput, setFormInput] = useState({
     email: '',
     password: '',
@@ -30,7 +47,7 @@ function Register() {
 
   // validate client
 
-  const validateFormInput = (event) => {
+  const validateFormInput = async (event) => {
     event.preventDefault()
 
     const inputError = {
@@ -39,7 +56,7 @@ function Register() {
       confirmPassword: '',
     }
 
-    if (!formInput.email && !formInput.password) {
+    if (!dataUser.username && !dataUser.password) {
       setFormError({
         ...inputError,
         email: 'Entrer une adresse email valide',
@@ -48,7 +65,7 @@ function Register() {
       return
     }
 
-    if (!formInput.email || !formInput.email.includes('@gmail.com')) {
+    if (!dataUser.username) {
       setFormError({
         ...inputError,
         email: 'Enter une adresse email valide',
@@ -56,7 +73,7 @@ function Register() {
       return
     }
 
-    if (formInput.confirmPassword !== formInput.password) {
+    if (formInput.confirmPassword !== dataUser.password) {
       setFormError({
         ...inputError,
         confirmPassword: 'Les deux mot de passe doivent correspondre',
@@ -64,7 +81,7 @@ function Register() {
       return
     }
 
-    if (!formInput.password) {
+    if (!dataUser.password) {
       setFormError({
         ...inputError,
         password: 'Le mot de passe ne doit pas être vide',
@@ -74,11 +91,23 @@ function Register() {
 
     setFormError(inputError)
 
+    const formData = new FormData()
+    formData.append('file', image)
+    formData.append('upload_preset', 'trigoyodila')
+    console.log('Form Data', formData)
+    const resultData = await axios({
+      method: 'post',
+      url: 'https://api.cloudinary.com/v1_1/dqsxdo3wo/upload',
+      data: formData,
+    })
+    const profilepicture = resultData.data['secure_url']
+
     // created user
     axios
       .post('http://localhost:5000/auth/register', {
-        username: formInput.email,
-        password: formInput.password,
+        username: dataUser.username,
+        password: dataUser.password,
+        profilepicture,
       })
       // eslint-disable-next-line no-shadow
       .then((user) => {
@@ -89,59 +118,74 @@ function Register() {
         })
         navigate('/protected')
       })
-      .catch(() => {
-        // error
-      })
+      .catch((err) => console.log(err))
+  }
+
+  const handleImageChange = (imgselected) => {
+    setImage(imgselected[0])
   }
 
   return (
     <div className="container">
       <form onSubmit={validateFormInput}>
-        <div className="inputs">
-          <input
-            type="text"
-            placeholder="Email"
-            name="email"
-            value={formInput.email}
-            onChange={({ target }) => {
-              handleUserInput(target.name, target.value)
-            }}
-          />
-          <small className="error-message">{formError.email}</small>
+        <div className="register-infos">
+          <div className="inputs">
+            <input
+              type="text"
+              placeholder="Email"
+              name="username"
+              value={dataUser.username}
+              onChange={(e) => handleChange(e)}
+            />
+            <small className="error-message">{formError.email}</small>
 
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={({ target }) => {
-              handleUserInput(target.name, target.value)
-            }}
-          />
-          <small className="error-message">{formError.password}</small>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={dataUser.password}
+              onChange={(e) => handleChange(e)}
+            />
+            <small className="error-message">{formError.password}</small>
 
-          <input
-            type="password"
-            placeholder="Confirm password"
-            value={formInput.confirmPassword}
-            name="confirmPassword"
-            onChange={({ target }) => {
-              handleUserInput(target.name, target.value)
-            }}
-          />
-          <small className="error-message">{formError.confirmPassword}</small>
+            <input
+              type="password"
+              placeholder="Confirm password"
+              value={formInput.confirmPassword}
+              name="confirmPassword"
+              onChange={({ target }) => {
+                handleUserInput(target.name, target.value)
+              }}
+            />
+            <small className="error-message">{formError.confirmPassword}</small>
+          </div>
+
+          <div className="buttons">
+            <input
+              className="btn-connect"
+              type="submit"
+              value="CREER UN COMPTE"
+            />
+
+            <div>
+              <p>
+                Vous avez déjà un compte ? <span>se connecter</span>
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div className="buttons">
-          <input
-            className="btn-connect"
-            type="submit"
-            value="CREER UN COMPTE"
-          />
-
-          <div>
-            <p>
-              Vous avez déjà un compte ? <span>se connecter</span>
-            </p>
+        <div className="register-profil">
+          <div className="image-profil">
+            <img src="" alt="" />
+          </div>
+          <div className="file-button">
+            <input
+              type="file"
+              id="profil"
+              accept="image/png, jpg, jpeg"
+              name="avatar"
+              onChange={(e) => handleImageChange(e.target.files)}
+            />
           </div>
         </div>
       </form>

@@ -44,7 +44,8 @@ const addUser = (req, res) => {
 
   const newUser = new UserModel({
     username,
-    password
+    password,
+    profilepicture
   })
 
   newUser.save()
