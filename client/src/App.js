@@ -13,11 +13,11 @@ import Started from './components/Login/Started'
 import Register from './components/Login/Register'
 
 function App() {
-  const [dispatch] = useStateValue()
+  // eslint-disable-next-line no-unused-vars
+  const [{ user }, dispatch] = useStateValue()
   const [userId, setUserId] = useState(null)
-
+  const token = localStorage.getItem('token')
   useEffect(() => {
-    const token = localStorage.getItem('token')
     if (token) {
       axios
         .get('http://localhost:5000/auth/user', {
@@ -29,15 +29,19 @@ function App() {
         .then((user) => {
           setUserId(user.data.user.id)
         })
-        .catch(() => {
-          // error
+        .catch((error) => {
+          console.log('error ', error)
         })
     }
   }, [])
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/auth/authuser/${userId}`)
+      .get(`http://localhost:5000/auth/authuser/${userId}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
       // eslint-disable-next-line no-shadow
       .then((user) => {
         dispatch({
@@ -45,10 +49,10 @@ function App() {
           user: user.data.user,
         })
       })
-      .catch(() => {
-        // error
+      .catch((error) => {
+        console.log('error login ', error)
       })
-  }, [userId])
+  }, [userId, token])
 
   return (
     <BrowserRouter>

@@ -2,8 +2,10 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react'
+import { MdOutlineEmojiEmotions } from 'react-icons/md'
+import { BsCamera } from 'react-icons/bs'
+import { BiSend } from 'react-icons/bi'
 import './conversation.css'
-import InputEmoji from 'react-input-emoji'
 import { getaUser } from '../../api/UserRequest'
 import profileuser from '../../Assets/images/user.png'
 import { getMessages, addMessage } from '../../api/MessagesRequest'
@@ -63,9 +65,9 @@ function Conversation({
   }, [conversation])
 
   // eslint-disable-next-line no-shadow
-  const handleChange = (newMessage) => {
-    setNewMessage(newMessage)
-  }
+  // const handleChange = (newMessage) => {
+  //   setNewMessage(newMessage)
+  // }
 
   const handleSend = async (e) => {
     e.preventDefault()
@@ -139,7 +141,7 @@ function Conversation({
             ))}
           </div>
 
-          <div className="conversation-sender">
+          {/* <div className="conversation-sender">
             <InputEmoji value={newMessage} onChange={handleChange} />
             <div
               className="send-button button"
@@ -149,6 +151,28 @@ function Conversation({
               envoyer
             </div>
             <input type="file" name="" id="" />
+          </div> */}
+          <div className="search-container">
+            <div className="search-content">
+              <input
+                type="text"
+                placeholder="Tapez votre message ici"
+                className="search-input"
+                multiple="true"
+                aria-hidden="true"
+              />
+              <div className="search-icons">
+                <span className="emoji">
+                  <MdOutlineEmojiEmotions />
+                </span>
+                <span className="camera">
+                  <BsCamera />
+                </span>
+              </div>
+            </div>
+            <div className="button" onClick={handleSend} aria-hidden="true">
+              <BiSend className="send-icon" />
+            </div>
           </div>
         </>
       ) : (
