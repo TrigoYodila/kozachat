@@ -21,7 +21,8 @@ function Register() {
     const { name, value } = e.target
     setDataUser((preventState) => ({ ...preventState, [name]: value }))
   }
-  console.log('image log', image)
+  // console.log('image log', image)
+  console.log('NEW USER REGISTER', user)
 
   // FormData
   // console.log('Data Result', resutData)
@@ -102,23 +103,26 @@ function Register() {
     })
     const profilepicture = resultData.data['secure_url']
 
-    // created user
-    axios
-      .post('http://localhost:5000/auth/register', {
-        username: dataUser.username,
-        password: dataUser.password,
-        profilepicture,
-      })
-      // eslint-disable-next-line no-shadow
-      .then((user) => {
-        localStorage.setItem('token', user.data.token)
-        dispatch({
-          type: 'GET_USE',
-          user: user.data.user,
+    if (profilepicture !== null) {
+      // created user
+      axios
+        .post('http://localhost:5000/auth/register', {
+          username: dataUser.username,
+          password: dataUser.password,
+          profilepicture,
         })
-        navigate('/protected')
-      })
-      .catch((err) => console.log(err))
+        // eslint-disable-next-line no-shadow
+        .then((user) => {
+          console.log('USER REGIS ', user.data.user)
+          localStorage.setItem('token', user.data.token)
+          dispatch({
+            type: 'GET_USE',
+            user: user.data.user,
+          })
+        })
+        .catch((err) => console.log(err))
+    }
+    navigate('/protected')
   }
 
   const handleImageChange = (imgselected) => {

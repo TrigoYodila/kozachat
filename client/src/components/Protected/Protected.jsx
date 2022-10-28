@@ -54,7 +54,7 @@ function Protected() {
     const getConversations = async () => {
       try {
         // eslint-disable-next-line no-underscore-dangle
-        const { data } = await userConversation(user._id)
+        const { data } = await userConversation(user?._id)
         setConversation(data)
       } catch (error) {
         // error
@@ -62,11 +62,11 @@ function Protected() {
     }
     getConversations()
     // eslint-disable-next-line no-underscore-dangle
-    setCurrentUserId(user._id)
+    setCurrentUserId(user?._id)
     // axios.get(`http://localhost:5000/conversation/${user._id}`)
     // .then(data=>console.log("mes data ", data));
     // eslint-disable-next-line no-underscore-dangle
-  }, [user._id])
+  }, [user?._id])
 
   // // Connect to Socket.io
   useEffect(() => {

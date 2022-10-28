@@ -67,7 +67,7 @@ function Contact({
                 <div className="conversation-user">
                   {/* {online && <div className="online-dot"></div>} */}
                   <img
-                    src={profileuser}
+                    src={user?.profilepicture ? user?.profilepicture : profileuser}
                     alt="Profile"
                     className="followerImage"
                     // eslint-disable-next-line prettier/prettier

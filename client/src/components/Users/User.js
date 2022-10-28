@@ -3,7 +3,6 @@ import './user.css'
 import userContext from '../Protected/userContext'
 import { getaUser } from '../../api/UserRequest'
 import profileuser from '../../Assets/images/user.png'
-
 // eslint-disable-next-line react/prop-types
 function User({ data, online }) {
   const { currentUserId } = useContext(userContext)
@@ -31,7 +30,9 @@ function User({ data, online }) {
         <div className="conversation-user">
           {online && <div className="online-dot"> </div>}
           <img
-            src={profileuser}
+            src={
+              userData?.profilepicture ? userData?.profilepicture : profileuser
+            }
             alt="Profile"
             className="followerImage"
             style={{ width: '70px', height: '70px' }}

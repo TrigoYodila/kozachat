@@ -17,6 +17,7 @@ function App() {
   const [{ user }, dispatch] = useStateValue()
   const [userId, setUserId] = useState(null)
   const token = localStorage.getItem('token')
+  console.log('USER APP', user)
   useEffect(() => {
     if (token) {
       axios
@@ -33,7 +34,7 @@ function App() {
           console.log('error ', error)
         })
     }
-  }, [])
+  }, [user])
 
   useEffect(() => {
     axios
