@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import './user.css'
 import userContext from '../Protected/userContext'
 import { getaUser } from '../../api/UserRequest'
+import { getMessages } from '../../api/MessagesRequest'
 import profileuser from '../../Assets/images/user.png'
 // eslint-disable-next-line react/prop-types
 function User({ data, online }) {
   const { currentUserId } = useContext(userContext)
   const [userData, setUserData] = useState(null)
+  const [lastMessage, setLastMessage] = useState(null)
 
   useEffect(() => {
     // eslint-disable-next-line react/prop-types
@@ -24,6 +26,20 @@ function User({ data, online }) {
     getUserData()
   }, [])
 
+  // Fetch for get last message in conversation
+  const takeMessages = () => {
+    // eslint-disable-next-line no-underscore-dangle
+    getMessages(data._id)
+      .then((chat) => {
+        setLastMessage(chat.data[chat.data.length - 1].content)
+      })
+      .catch((error) => {
+        console.log('error ', error)
+      })
+  }
+
+  if (data !== null) takeMessages()
+
   return (
     <>
       <div className="follower conversation">
@@ -39,7 +55,9 @@ function User({ data, online }) {
           />
           <div className="name" style={{ fontSize: '1rem' }}>
             <span>{userData?.username}</span>
-            <small>last message</small>
+            <small>
+              {lastMessage?.length < 15 ? lastMessage : `${lastMessage}...`}
+            </small>
           </div>
         </div>
       </div>

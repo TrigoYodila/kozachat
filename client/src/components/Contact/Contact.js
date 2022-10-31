@@ -7,30 +7,32 @@ import profileuser from '../../Assets/images/user.png'
 import userContext from '../Protected/userContext'
 import '../Users/user.css'
 import { getaAllUsers } from '../../api/UserRequest'
+// import { getMessages } from '../../api/MessagesRequest'
 import { useStateValue } from '../../reducers/StateProvider'
-import { findSpecifiqueConversation } from '../../api/ConversationRequest'
+import {
+  findSpecifiqueConversation,
+  createConversation,
+} from '../../api/ConversationRequest'
+// eslint-disable-next-line import/no-named-as-default
+import ContactMessage from './ContactMessage'
 
 function Contact({
   setCurrentConversation,
   // eslint-disable-next-line no-unused-vars
   conversation,
+  currentConversation
 }) {
   const [{ user }] = useStateValue()
   const { currentUserId } = useContext(userContext)
   const [allUsersData, setAllUsersData] = useState(null)
+  // const [participantId, setParticipantIdId] = useState(null)
   const [getdata, setGetData] = useState(false)
-
-  // const [allUsersData, setAllUsersData] = useState(null);
-
-  // console.log("courant conversation", currentConversation);
-  // console.log("current user contact contact", currentConversation);
-  // console.log("current user", user._i)
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         // eslint-disable-next-line prettier/prettier
-        const { data } = await getaAllUsers(user._id);
+        const { data } = await getaAllUsers(user._id)
         setAllUsersData(data)
         setGetData(true)
       } catch (error) {
@@ -44,6 +46,16 @@ function Contact({
     try {
       const { data } = await findSpecifiqueConversation(currentUserId, user._id)
       setCurrentConversation(data)
+      if (currentConversation === null) {
+        createConversation({
+          senderId: currentUserId,
+          receverId: user._id,
+        })
+          .then((resultat) => {
+            setCurrentConversation(resultat.data.result)
+          })
+          .catch((error) => console.log(error))
+      }
     } catch (error) {
       // error
     }
@@ -67,7 +79,9 @@ function Contact({
                 <div className="conversation-user">
                   {/* {online && <div className="online-dot"></div>} */}
                   <img
-                    src={user?.profilepicture ? user?.profilepicture : profileuser}
+                    src={
+                      user?.profilepicture ? user?.profilepicture : profileuser
+                    }
                     alt="Profile"
                     className="followerImage"
                     // eslint-disable-next-line prettier/prettier
@@ -75,7 +89,7 @@ function Contact({
                   />
                   <div className="name" style={{ fontSize: '1rem' }}>
                     <span>{user?.username}</span>
-                    <small>last message</small>
+                    <ContactMessage current={user} />
                   </div>
                 </div>
               </div>

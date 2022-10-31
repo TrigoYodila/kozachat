@@ -9,7 +9,7 @@ function Started() {
       <div className="started-link">
         <div className="title">
           <h1>KOZACHAT</h1>
-          <p>Chaté n&apos importe quand, n&apos imprte où.</p>
+          <p>Chatez en temps réel avec vos correspondants.</p>
         </div>
         <div className="link-block">
           <NavLink to="/login" className="link">

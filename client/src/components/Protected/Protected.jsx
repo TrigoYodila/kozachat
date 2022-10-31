@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import axios from 'axios'
+// eslint-disable-next-line object-curly-newline
 import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Conversation from '../conversation/Conversation'
@@ -32,12 +33,10 @@ function Protected() {
   const [receiveMessage, setReceiveMessage] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
   const [clickedLink, setClickedLink] = useState(false)
-
-  // console.log("mes conversations", conversation);
   // console.log("CURRENT CONVESATION", currentConversation)
 
   // s end message to socket server
-  console.log('USERS CONVERSATION', currentConversation)
+  // console.log('USERS CONVERSATION', currentConversation)
   useEffect(() => {
     if (sendMessage !== null) {
       socket.current.emit('send-message', sendMessage)
@@ -151,12 +150,16 @@ function Protected() {
                   // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                   <div
                     onClick={() => {
-                      setCurrentConversation(conversation);
+                      setCurrentConversation(conversation)
                     }}
                   >
-                    <User data={conversation} online={isOnline} />
+                    <User
+                      data={conversation}
+                      online={isOnline}
+                      messages={messages}
+                    />
                   </div>
-                );
+                )
               })
             ) : (
               <Contact
