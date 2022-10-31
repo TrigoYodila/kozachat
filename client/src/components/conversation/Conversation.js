@@ -27,6 +27,7 @@ function Conversation({
   const [showPicker, setShowPicker] = useState(false)
   const scroll = useRef()
   const inputRef = useRef()
+  const fileRef = useRef()
 
   useEffect(() => {
     if (
@@ -106,6 +107,9 @@ function Conversation({
     scroll.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  const handleFile = () => {
+    fileRef.current.click()
+  }
   return (
     <div className="conversation-container">
       {conversation ? (
@@ -165,7 +169,13 @@ function Conversation({
                   />
                 </span>
                 <span className="camera">
-                  <BsCamera />
+                  <input
+                    type="file"
+                    ref={fileRef}
+                    accept=".jpg,.jpeg,.png"
+                    style={{ display: 'none' }}
+                  />
+                  <BsCamera onClick={handleFile} />
                 </span>
               </div>
               <div className="emoji-container">

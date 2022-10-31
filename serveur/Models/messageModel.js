@@ -10,6 +10,9 @@ const MessageSchema = mongoose.Schema(
         },
         content:{
             type:String
+        },
+        attachement:{
+            type:Array
         }
     },
     {

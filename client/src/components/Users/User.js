@@ -8,7 +8,7 @@ import profileuser from '../../Assets/images/user.png'
 function User({ data, online }) {
   const { currentUserId } = useContext(userContext)
   const [userData, setUserData] = useState(null)
-  const [lastMessage, setLastMessage] = useState(null)
+  const [lastMessage, setLastMessage] = useState('')
 
   useEffect(() => {
     // eslint-disable-next-line react/prop-types

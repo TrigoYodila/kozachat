@@ -14,17 +14,12 @@ const ContactMessage = ({ current }) => {
     try {
       // eslint-disable-next-line no-underscore-dangle
       const { data } = await findSpecifiqueConversation(current._id, user._id)
-      console.log('contact data convers', data)
+      //   console.log('contact data convers', data)
       if (data !== null) {
         // eslint-disable-next-line no-underscore-dangle
         getMessages(data._id)
           .then((chat) => {
-            console.log(
-              'Last Message contact',
-              chat.data[chat.data.length - 1].content
-            )
             setLastMessage(chat.data[chat.data.length - 1].content)
-            // setLastMessage(chat.data[chat.data.length - 1].content)
           })
           .catch((error) => {
             console.log('error ', error)
