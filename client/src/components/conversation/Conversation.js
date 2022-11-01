@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable operator-linebreak */
 /* eslint-disable dot-notation */
@@ -15,6 +16,7 @@ import './conversation.css'
 import { getaUser } from '../../api/UserRequest'
 import profileuser from '../../Assets/images/user.png'
 import { getMessages, addMessage } from '../../api/MessagesRequest'
+import messageimage from '../../Assets/images/chat.jpg'
 
 // import {format} from 'timeago.js';
 
@@ -174,16 +176,35 @@ function Conversation({
                   }
                 >
                   <span className="text">{message.content}</span>
-                  <small className="date date-own">
+                  <small
+                    className={
+                      message.senderId === currentUserId ? 'date' : 'date-own'
+                    }
+                  >
                     {format(message.createdAt)}
                   </small>
                 </div>
                 {message.attachement.length !== 0 && (
-                  <div className="images-messages">
-                    {message.attachement.map((uri) => (
-                      <img src={uri} alt="image-message" />
-                    ))}
-                  </div>
+                  <>
+                    <div
+                      className={
+                        message.senderId === currentUserId
+                          ? 'images-messages'
+                          : 'images-messages images-messages-own'
+                      }
+                    >
+                      {message.attachement.map((uri) => (
+                        <img src={uri} alt="image-message" />
+                      ))}
+                    </div>
+                    <small
+                      className={
+                        message.senderId !== currentUserId && 'images-messages-own'
+                      }
+                    >
+                      {format(message.createdAt)}
+                    </small>
+                  </>
                 )}
               </>
             ))}
@@ -232,7 +253,11 @@ function Conversation({
           </div>
         </>
       ) : (
-        <span className="message-empty">Demarrer une conversation</span>
+        <div className="message-empty">
+          <div className="image">
+            <img src={messageimage} alt="image-fond" />
+          </div>
+        </div>
       )}
     </div>
   )

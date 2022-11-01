@@ -62,8 +62,6 @@ function Protected() {
     getConversations()
     // eslint-disable-next-line no-underscore-dangle
     setCurrentUserId(user?._id)
-    // axios.get(`http://localhost:5000/conversation/${user._id}`)
-    // .then(data=>console.log("mes data ", data));
     // eslint-disable-next-line no-underscore-dangle
   }, [user?._id])
 
@@ -106,10 +104,8 @@ function Protected() {
       // eslint-disable-next-line no-underscore-dangle
       (member) => member !== user._id
     );
-    // console.log("Chat Member", onlineUsers);
     // eslint-disable-next-line no-shadow
     const online = onlineUsers.find((user) => user.userId === chatMember);
-    // return online ? false : true;
     if (online === undefined) {
       return false
     // eslint-disable-next-line no-else-return
@@ -117,8 +113,6 @@ function Protected() {
       return true
     }
   }
-
-  // console.log("user current Id", currentUserId)
   return (
     <div className="chat-container">
       <userContext.Provider value={{ user, conversation, currentUserId }}>

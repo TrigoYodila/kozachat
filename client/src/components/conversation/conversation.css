@@ -5,6 +5,7 @@
   grid-template-rows: 14vh 60vh 14vh;
   padding: 0 2rem;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  position: relative;
 }
 
 .conversation-header {
@@ -126,16 +127,29 @@
   font-size: 1rem;
 }
 
+.date-own{
+  align-self: flex-end;
+}
+
 .name {
   display: flex;
   flex-direction: column;
 }
 
 .message-empty {
+  padding-top: 5rem;
+  width: 100%;
   display: flex;
-  align-self: center;
   justify-content: center;
-  font-size: 1.5rem;
+  /* align-items: center; */
+}
+
+.message-empty .image{
+}
+.message-empty .image img{
+  width: 40rem;
+  height: 40rem;
+  object-fit: cover;
 }
 
 .search-container{
@@ -221,6 +235,11 @@
   height: 20rem;
   border-radius: 1rem;
 }
+
+.images-messages-own{
+  align-self: flex-end;
+}
+
 
 .images-messages img{
   width: 20rem;
