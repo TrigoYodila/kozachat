@@ -76,12 +76,14 @@ function Contact({
     <>
       {getdata
         // eslint-disable-next-line arrow-body-style
-        && allUsersData.map((user) => {
+        && allUsersData.map((user, index) => {
            const isOnline = checkMemberOnline(user)
           return (
             // eslint-disable-next-line max-len
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
               onClick={() => {
                 UserInConversation(user)
               }}
@@ -91,7 +93,9 @@ function Contact({
                   {isOnline && <div className="online-dot"> </div>}
                   <img
                     src={
-                      user?.profilepicture === null ? user?.profilepicture : profileuser
+                      user?.profilepicture === null
+                        ? user?.profilepicture
+                        : profileuser
                     }
                     alt="Profile"
                     className="followerImage"

@@ -136,12 +136,14 @@ function Protected() {
             <h1>{clickedLink === false ? 'Recent' : 'Contacts'}</h1>
             {clickedLink === false ? (
               // eslint-disable-next-line no-shadow
-              conversation.map((conversation) => {
+              conversation.map((conversation, index) => {
                 const isOnline = checkOnlineStatus(conversation);
                 return (
                   // eslint-disable-next-line max-len
                   // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
                   <div
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
                     onClick={() => {
                       setCurrentConversation(conversation)
                     }}
