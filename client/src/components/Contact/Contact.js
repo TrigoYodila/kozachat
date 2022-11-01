@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
@@ -19,7 +20,7 @@ import ContactMessage from './ContactMessage'
 function Contact({
   setCurrentConversation,
   // eslint-disable-next-line no-unused-vars
-  conversation,
+  onlineUsers,
   currentConversation
 }) {
   const [{ user }] = useStateValue()
@@ -61,12 +62,22 @@ function Contact({
     }
   }
 
+  const checkMemberOnline = (member) => {
+    const online = onlineUsers.find((user) => user.userId === member._id)
+    if (online === undefined) {
+      return false
+      // eslint-disable-next-line no-else-return
+    } else {
+      return true
+    }
+  }
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {getdata
         // eslint-disable-next-line arrow-body-style
         && allUsersData.map((user) => {
+           const isOnline = checkMemberOnline(user)
           return (
             // eslint-disable-next-line max-len
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -77,7 +88,7 @@ function Contact({
             >
               <div className="follower conversation">
                 <div className="conversation-user">
-                  {/* {online && <div className="online-dot"></div>} */}
+                  {isOnline && <div className="online-dot"> </div>}
                   <img
                     src={
                       user?.profilepicture === null ? user?.profilepicture : profileuser

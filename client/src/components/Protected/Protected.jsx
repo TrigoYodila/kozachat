@@ -99,7 +99,6 @@ function Protected() {
 
   // eslint-disable-next-line no-shadow
   const checkOnlineStatus = (conversation) => {
-    // console.log("Online executé", conversation.participants)
     const chatMember = conversation.participants.find(
       // eslint-disable-next-line no-underscore-dangle
       (member) => member !== user._id
@@ -158,6 +157,7 @@ function Protected() {
             ) : (
               <Contact
                 // conversation = {conversation}
+                onlineUsers={onlineUsers}
                 setCurrentConversation={setCurrentConversation}
                 checkOnlineStatus={checkOnlineStatus}
                 currentConversation={currentConversation}
