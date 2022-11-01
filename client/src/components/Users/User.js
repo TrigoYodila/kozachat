@@ -47,7 +47,9 @@ function User({ data, online }) {
           {online && <div className="online-dot"> </div>}
           <img
             src={
-              userData?.profilepicture ? userData?.profilepicture : profileuser
+              userData?.profilepicture === null
+                ? userData?.profilepicture
+                : profileuser
             }
             alt="Profile"
             className="followerImage"

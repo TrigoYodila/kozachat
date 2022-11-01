@@ -95,7 +95,7 @@ function Register() {
     const formData = new FormData()
     formData.append('file', image)
     formData.append('upload_preset', 'trigoyodila')
-    console.log('Form Data', formData)
+    // console.log('Form Data', formData)
     const resultData = await axios({
       method: 'post',
       url: 'https://api.cloudinary.com/v1_1/dqsxdo3wo/upload',
@@ -113,7 +113,7 @@ function Register() {
         })
         // eslint-disable-next-line no-shadow
         .then((user) => {
-          console.log('USER REGIS ', user.data.user)
+          // console.log('USER REGIS ', user.data.user)
           localStorage.setItem('token', user.data.token)
           dispatch({
             type: 'GET_USE',

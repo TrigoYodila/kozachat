@@ -1,7 +1,11 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable operator-linebreak */
+/* eslint-disable dot-notation */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react'
+import axios from 'axios'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
 import { BsCamera } from 'react-icons/bs'
 import { BiSend } from 'react-icons/bi'
@@ -23,8 +27,9 @@ function Conversation({
 }) {
   const [userData, setUserData] = useState(null)
   const [newMessage, setNewMessage] = useState('')
-  // const [inputStr, setInputStr] = useState('')
   const [showPicker, setShowPicker] = useState(false)
+  const [imageMessage, setImageMessage] = useState([])
+  // const [image, setImage] = useState('')
   const scroll = useRef()
   const inputRef = useRef()
   const fileRef = useRef()
@@ -32,7 +37,8 @@ function Conversation({
   useEffect(() => {
     if (
       // eslint-disable-next-line prettier/prettier
-      receiveMessage !== null && receiveMessage.conversationId === conversation._id
+      receiveMessage !== null &&
+      receiveMessage.conversationId === conversation._id
       // eslint-disable-next-line prettier/prettier
     ) setMessages((prev) => [...prev, receiveMessage])
   }, [receiveMessage])
@@ -56,7 +62,6 @@ function Conversation({
   }, [conversation, currentUserId])
 
   // Fecth data for messages
-
   useEffect(() => {
     const takeMessages = async () => {
       try {
@@ -70,17 +75,24 @@ function Conversation({
     if (conversation !== null) takeMessages()
   }, [conversation])
 
+  console.log('IMAGE MESSAGE ', imageMessage)
+
+  // scroll always to last message
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  // Function Send Message
   const handleSend = async (e) => {
     e.preventDefault()
-
+    // data message
     const message = {
       senderId: currentUserId,
       content: newMessage,
       conversationId: conversation._id,
+      attachement: imageMessage,
     }
-
     // send message to database
-
     try {
       const { data } = await addMessage(message)
       setMessages((prev) => [...prev, data])
@@ -88,7 +100,7 @@ function Conversation({
     } catch (error) {
       // error
     }
-
+    setImageMessage([])
     // send message to socket server
     const receverId = conversation.participants.find(
       (id) => id !== currentUserId
@@ -96,20 +108,34 @@ function Conversation({
     setSendMessage({ ...message, receverId })
   }
 
-  // emoji function
+  // Get Emoji function
   const onEmojiClick = (event) => {
     setNewMessage((prevInput) => prevInput + event.emoji)
     setShowPicker(false)
     inputRef.current.focus()
   }
-  // scroll always to last message
-  useEffect(() => {
-    scroll.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
 
+  // Redirect uploadFile Function
   const handleFile = () => {
     fileRef.current.click()
   }
+
+  // Selected Image Function
+  const handleImageChange = async (imgselected) => {
+    const formData = new FormData()
+    formData.append('file', imgselected[0])
+    formData.append('upload_preset', 'trigoyodila')
+    axios({
+      method: 'post',
+      url: 'https://api.cloudinary.com/v1_1/dqsxdo3wo/upload',
+      data: formData,
+    })
+      .then((result) => {
+        setImageMessage((prev) => [...prev, result.data['secure_url']])
+      })
+      .catch((error) => console.log(error))
+  }
+
   return (
     <div className="conversation-container">
       {conversation ? (
@@ -139,15 +165,24 @@ function Conversation({
 
           <div className="conversation-body">
             {messages.map((message) => (
-              <div
-                ref={scroll}
-                className={
-                  message.senderId === currentUserId ? 'message' : 'own'
-                }
-              >
-                <span className="text">{message.content}</span>
-                <small className="date date-own">{message.createdAt}</small>
-              </div>
+              <>
+                <div
+                  ref={scroll}
+                  className={
+                    message.senderId === currentUserId ? 'message' : 'own'
+                  }
+                >
+                  <span className="text">{message.content}</span>
+                  <small className="date date-own">{message.createdAt}</small>
+                </div>
+                {message.attachement.length !== 0 && (
+                  <div className="images-messages">
+                    {message.attachement.map((uri) => (
+                      <img src={uri} alt="image-message" />
+                    ))}
+                  </div>
+                )}
+              </>
             ))}
           </div>
           <div className="search-container">
@@ -173,6 +208,7 @@ function Conversation({
                     type="file"
                     ref={fileRef}
                     accept=".jpg,.jpeg,.png"
+                    onChange={(e) => handleImageChange(e.target.files)}
                     style={{ display: 'none' }}
                   />
                   <BsCamera onClick={handleFile} />

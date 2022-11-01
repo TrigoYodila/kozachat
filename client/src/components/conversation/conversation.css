@@ -207,3 +207,19 @@
   display: none;
 } */
 
+.images-messages{
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--white-grise);
+  padding: 1rem;
+  width: fit-content;
+  border-radius: 1rem;
+}
+
+.images-messages img{
+  width: 20rem;
+  height: 20rem;
+  object-fit: contain;
+}
+

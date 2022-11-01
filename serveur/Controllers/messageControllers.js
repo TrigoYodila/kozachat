@@ -1,11 +1,12 @@
 const MessageModel = require("../Models/messageModel");
 
 const addMessage = (req, res) => {
-  const { conversationId, senderId, content } = req.body;
+  const { conversationId, senderId, content, attachement } = req.body;
   const message = new MessageModel({
     conversationId,
     senderId,
     content,
+    attachement:attachement
   });
 
   message
