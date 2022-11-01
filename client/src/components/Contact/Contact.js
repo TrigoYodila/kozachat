@@ -80,7 +80,7 @@ function Contact({
                   {/* {online && <div className="online-dot"></div>} */}
                   <img
                     src={
-                      user?.profilepicture ? user?.profilepicture : profileuser
+                      user?.profilepicture === null ? user?.profilepicture : profileuser
                     }
                     alt="Profile"
                     className="followerImage"

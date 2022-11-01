@@ -6,6 +6,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
+import { format } from 'timeago.js'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
 import { BsCamera } from 'react-icons/bs'
 import { BiSend } from 'react-icons/bi'
@@ -173,7 +174,9 @@ function Conversation({
                   }
                 >
                   <span className="text">{message.content}</span>
-                  <small className="date date-own">{message.createdAt}</small>
+                  <small className="date date-own">
+                    {format(message.createdAt)}
+                  </small>
                 </div>
                 {message.attachement.length !== 0 && (
                   <div className="images-messages">
