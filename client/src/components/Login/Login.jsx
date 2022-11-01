@@ -6,7 +6,7 @@ import Register from './Register'
 import { useStateValue } from '../../reducers/StateProvider'
 
 const Login = () => {
-  // eslint-disable-next-line object-curly-spacing
+  // eslint-disable-next-line object-curly-spacing, no-unused-vars
   const [{ user }, dispatch] = useStateValue()
 
   const navigate = useNavigate()
@@ -16,21 +16,23 @@ const Login = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    axios
-      .get('http://localhost:5000/auth/protected', {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(() => {
-        navigate('/protected')
-      })
-      .catch(() => {
-        navigate('/login')
-      })
+    if (token) {
+      axios
+        .get('http://localhost:5000/auth/protected', {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then(() => {
+          navigate('/protected')
+        })
+        .catch(() => {
+          navigate('/login')
+        })
+    }
   }, [])
 
-  console.log('user', user)
+  // console.log('user', user)
   const submit = (e) => {
     e.preventDefault()
 

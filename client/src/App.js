@@ -17,7 +17,7 @@ function App() {
   const [{ user }, dispatch] = useStateValue()
   const [userId, setUserId] = useState(null)
   const token = localStorage.getItem('token')
-  console.log('USER APP', user)
+  // console.log('USER APP', user)
   useEffect(() => {
     if (token) {
       axios
@@ -37,22 +37,24 @@ function App() {
   }, [user])
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/auth/authuser/${userId}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      // eslint-disable-next-line no-shadow
-      .then((user) => {
-        dispatch({
-          type: 'GET_USER',
-          user: user.data.user,
+    if (userId) {
+      axios
+        .get(`http://localhost:5000/auth/authuser/${userId}`, {
+          headers: {
+            Authorization: token,
+          },
         })
-      })
-      .catch((error) => {
-        console.log('error login ', error)
-      })
+        // eslint-disable-next-line no-shadow
+        .then((user) => {
+          dispatch({
+            type: 'GET_USER',
+            user: user.data.user,
+          })
+        })
+        .catch((error) => {
+          console.log('error login ', error)
+        })
+    }
   }, [userId, token])
 
   return (

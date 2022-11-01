@@ -78,7 +78,7 @@ function Conversation({
     if (conversation !== null) takeMessages()
   }, [conversation])
 
-  console.log('IMAGE MESSAGE ', imageMessage)
+  // console.log('IMAGE MESSAGE ', imageMessage)
 
   // scroll always to last message
   useEffect(() => {
@@ -167,8 +167,9 @@ function Conversation({
           </div>
 
           <div className="conversation-body">
-            {messages.map((message) => (
-              <>
+            {messages.map((message, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={index}>
                 <div
                   ref={scroll}
                   className={
@@ -206,7 +207,7 @@ function Conversation({
                     </small>
                   </>
                 )}
-              </>
+              </div>
             ))}
           </div>
           <div className="search-container">

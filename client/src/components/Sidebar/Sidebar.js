@@ -17,7 +17,7 @@ function Sidebar({ clickedLink, setClickedLink }) {
   const [{ user }] = useStateValue()
   const navigate = useNavigate()
 
-  console.log('user complete sidebar ', user)
+  // console.log('user complete sidebar ', user)
 
   const handleClicked = () => {
     setClickedLink(false)
@@ -37,7 +37,9 @@ function Sidebar({ clickedLink, setClickedLink }) {
       <div className="sidebar-top">
         <div className="user-image">
           <img
-            src={user?.profilepicture ? user?.profilepicture : profileuser}
+            src={
+              user?.profilepicture === null ? user?.profilepicture : profileuser
+            }
             alt=""
           />
           <p>{user?.username}</p>
