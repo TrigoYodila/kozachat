@@ -26,6 +26,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .message > span:nth-child(2) {
@@ -45,6 +46,7 @@
   flex-direction: column;
   gap: 0.5rem;
   align-self: flex-end;
+  margin-bottom: 1rem;
   
 }
 
@@ -209,11 +211,14 @@
 
 .images-messages{
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
   background: var(--white-grise);
   padding: 1rem;
   width: fit-content;
+  height: 20rem;
   border-radius: 1rem;
 }
 
