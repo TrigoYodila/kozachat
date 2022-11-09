@@ -11,12 +11,14 @@ import { useStateValue } from './reducers/StateProvider'
 import axios from 'axios'
 import Started from './components/Login/Started'
 import Register from './components/Login/Register'
+// import Loading from './components/Login/Loading'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [{ user }, dispatch] = useStateValue()
   const [userId, setUserId] = useState(null)
   const token = localStorage.getItem('token')
+  // const [isloading, setIsLoading] = useState(false)
   // console.log('USER APP', user)
   useEffect(() => {
     if (token) {
@@ -60,6 +62,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* <Route path="/" element={<Started />} /> */}
         <Route path="/" element={<Started />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

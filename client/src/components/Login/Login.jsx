@@ -81,7 +81,7 @@ const Login = () => {
           </button>
           <div>
             <p>
-              Vous n&apos avez pas de compte ?
+              Vous n avez pas de compte ?
               <span onClick={handleClicked} aria-hidden="true">
                 créer un compte
               </span>

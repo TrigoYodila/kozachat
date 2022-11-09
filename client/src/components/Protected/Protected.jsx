@@ -18,6 +18,7 @@ import { FiSearch } from 'react-icons/fi'
 // eslint-disable-next-line import/order
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import Contact from '../Contact/Contact'
+import Loading from '../Login/Loading'
 
 function Protected() {
   const navigate = useNavigate()
@@ -33,9 +34,10 @@ function Protected() {
   const [receiveMessage, setReceiveMessage] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
   const [clickedLink, setClickedLink] = useState(false)
+  const [isloading, setIsLoading] = useState(true)
   // console.log("CURRENT CONVESATION", currentConversation)
 
-  // s end message to socket server
+  // send message to socket server
   // console.log('USERS CONVERSATION', currentConversation)
   useEffect(() => {
     if (sendMessage !== null) {
@@ -65,7 +67,6 @@ function Protected() {
     // eslint-disable-next-line no-underscore-dangle
   }, [user?._id])
 
-  // // Connect to Socket.io
   useEffect(() => {
     socket.current = io('ws://localhost:8800')
     // eslint-disable-next-line no-underscore-dangle
@@ -84,17 +85,20 @@ function Protected() {
         },
       })
       .then(() => {
-        // error
+        // setIsLoading(false)
       })
       .catch(() => {
         // error
-        navigate('/login')
+        setTimeout(() => navigate('/login'), 2500)
       })
 
     // receive Message from socket server
     socket.current.on('receive-message', (data) => {
       setReceiveMessage(data)
     })
+
+    // Loading
+    setTimeout(() => setIsLoading(false), 1000)
   }, [])
 
   // eslint-disable-next-line no-shadow
@@ -112,7 +116,9 @@ function Protected() {
       return true
     }
   }
-  return (
+  return isloading ? (
+    <Loading />
+  ) : (
     <div className="chat-container">
       <userContext.Provider value={{ user, conversation, currentUserId }}>
         <Sidebar
@@ -137,7 +143,7 @@ function Protected() {
             {clickedLink === false ? (
               // eslint-disable-next-line no-shadow
               conversation.map((conversation, index) => {
-                const isOnline = checkOnlineStatus(conversation);
+                const isOnline = checkOnlineStatus(conversation)
                 return (
                   // eslint-disable-next-line max-len
                   // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -178,7 +184,7 @@ function Protected() {
         />
       </userContext.Provider>
     </div>
-  );
+  )
 }
 
 export default Protected

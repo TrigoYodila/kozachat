@@ -6,6 +6,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
 import axios from 'axios'
 import { format } from 'timeago.js'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
@@ -33,6 +34,7 @@ function Conversation({
   const [showPicker, setShowPicker] = useState(false)
   const [imageMessage, setImageMessage] = useState([])
   // const [image, setImage] = useState('')
+  const [isloading, setIsLoading] = useState(true)
   const scroll = useRef()
   const inputRef = useRef()
   const fileRef = useRef()
@@ -70,6 +72,7 @@ function Conversation({
       try {
         const { data } = await getMessages(conversation._id)
         setMessages(data)
+        setTimeout(() => setIsLoading(false), 1000)
       } catch (error) {
         // error
       }
@@ -165,51 +168,58 @@ function Conversation({
               }}
             />
           </div>
-
-          <div className="conversation-body">
-            {messages.map((message, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div key={index}>
-                <div
-                  ref={scroll}
-                  className={
-                    message.senderId === currentUserId ? 'message' : 'own'
-                  }
-                >
-                  <span className="text">{message.content}</span>
-                  <small
+          {isloading ? (
+            <div className="conversation-body-loader">
+              <CircularProgress />
+            </div>
+          ) : (
+            <div className="conversation-body">
+              {messages.map((message, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={index}>
+                  <div
+                    ref={scroll}
                     className={
-                      message.senderId === currentUserId ? 'date' : 'date-own'
+                      message.senderId === currentUserId ? 'message' : 'own'
                     }
                   >
-                    {format(message.createdAt)}
-                  </small>
-                </div>
-                {message.attachement.length !== 0 && (
-                  <>
-                    <div
-                      className={
-                        message.senderId === currentUserId
-                          ? 'images-messages'
-                          : 'images-messages images-messages-own'
-                      }
-                    >
-                      {message.attachement.map((uri) => (
-                        <img src={uri} alt="image-message" />
-                      ))}
-                    </div>
+                    <span className="text">{message.content}</span>
                     <small
                       className={
-                        message.senderId !== currentUserId && 'images-messages-own'
+                        message.senderId === currentUserId ? 'date' : 'date-own'
                       }
                     >
                       {format(message.createdAt)}
                     </small>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+                  </div>
+                  {message.attachement.length !== 0 && (
+                    <>
+                      <div
+                        className={
+                          message.senderId === currentUserId
+                            ? 'images-messages'
+                            : 'images-messages images-messages-own'
+                        }
+                      >
+                        {message.attachement.map((uri) => (
+                          <img src={uri} alt="image-message" />
+                        ))}
+                      </div>
+                      <small
+                        className={
+                          message.senderId !== currentUserId &&
+                          'images-messages-own'
+                        }
+                      >
+                        {format(message.createdAt)}
+                      </small>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="search-container">
             <div className="search-content">
               <input

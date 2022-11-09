@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Skeleton from '@mui/material/Skeleton'
 import { findSpecifiqueConversation } from '../../api/ConversationRequest'
 import { getMessages } from '../../api/MessagesRequest'
 import { useStateValue } from '../../reducers/StateProvider'
@@ -8,6 +9,7 @@ const ContactMessage = ({ current }) => {
   // Fetch for get last message in conversation
   const [{ user }] = useStateValue()
   const [lastMessage, setLastMessage] = useState('')
+  const [loading, SetIsLoading] = useState(true)
 
   // getMessages
   const takeMessages = async () => {
@@ -24,6 +26,9 @@ const ContactMessage = ({ current }) => {
           .catch((error) => {
             console.log('error ', error)
           })
+          .finally(() => SetIsLoading(false))
+      } else {
+        SetIsLoading(false)
       }
     } catch (error) {
       // error
@@ -34,9 +39,13 @@ const ContactMessage = ({ current }) => {
 
   return (
     <div>
-      <small>
-        {lastMessage?.length < 15 ? lastMessage : `${lastMessage}...`}
-      </small>
+      {loading ? (
+        <Skeleton animation="wave" height={10} width="40%" />
+      ) : (
+        <small>
+          {lastMessage?.length < 15 ? lastMessage : `${lastMessage}...`}
+        </small>
+      )}
     </div>
   )
 }

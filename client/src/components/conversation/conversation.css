@@ -23,6 +23,12 @@
   margin-bottom: 2rem;
 }
 
+.conversation-body-loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .message {
   display: flex;
   flex-direction: column;
@@ -145,6 +151,7 @@
 }
 
 .message-empty .image{
+
 }
 .message-empty .image img{
   width: 40rem;

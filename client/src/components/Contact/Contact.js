@@ -4,6 +4,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import React, { useContext, useState, useEffect } from 'react'
+import Skeleton from '@mui/material/Skeleton'
 import profileuser from '../../Assets/images/user.png'
 import userContext from '../Protected/userContext'
 import '../Users/user.css'
@@ -28,13 +29,15 @@ function Contact({
   const [allUsersData, setAllUsersData] = useState(null)
   // const [participantId, setParticipantIdId] = useState(null)
   const [getdata, setGetData] = useState(false)
-
+  // eslint-disable-next-line no-unused-vars
+  const [loading, SetIsLoading] = useState(true)
   useEffect(() => {
     const getUserData = async () => {
       try {
         // eslint-disable-next-line prettier/prettier
         const { data } = await getaAllUsers(user._id)
         setAllUsersData(data)
+        setTimeout(() => SetIsLoading(false), 1000)
         setGetData(true)
       } catch (error) {
         // error
@@ -42,7 +45,7 @@ function Contact({
     }
     getUserData()
   }, [])
-
+  // console.log('Je suis Loading contact', loading)
   const UserInConversation = async (user) => {
     try {
       const { data } = await findSpecifiqueConversation(currentUserId, user._id)
@@ -91,20 +94,42 @@ function Contact({
               <div className="follower conversation">
                 <div className="conversation-user">
                   {isOnline && <div className="online-dot"> </div>}
-                  <img
-                    src={
-                      user?.profilepicture === null
-                        ? user?.profilepicture
-                        : profileuser
-                    }
-                    alt="Profile"
-                    className="followerImage"
-                    // eslint-disable-next-line prettier/prettier
-                    style={{ width: '70px', height: '70px' }}
-                  />
+                  {loading ? (
+                    <Skeleton
+                      animation="wave"
+                      variant="circular"
+                      width={70}
+                      height={55}
+                    />
+                  ) : (
+                    <img
+                      src={
+                        user?.profilepicture === null
+                          ? user?.profilepicture
+                          : profileuser
+                      }
+                      alt="Profile"
+                      className="followerImage"
+                      // eslint-disable-next-line prettier/prettier
+                      style={{ width: '70px', height: '70px' }}
+                    />
+                  )}
                   <div className="name" style={{ fontSize: '1rem' }}>
-                    <span>{user?.username}</span>
-                    <ContactMessage current={user} />
+                    {loading ? (
+                      <Skeleton
+                        animation="wave"
+                        height={20}
+                        width="40%"
+                        style={{ marginBottom: 6 }}
+                      />
+                    ) : (
+                      <span>{user?.username}</span>
+                    )}
+                    <ContactMessage
+                      current={user}
+                      // loading={loading}
+                      // SetIsLoading={SetIsLoading}
+                    />
                   </div>
                 </div>
               </div>
