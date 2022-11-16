@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import axios from 'axios'
 // eslint-disable-next-line object-curly-newline

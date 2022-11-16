@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable operator-linebreak */
 /* eslint-disable dot-notation */
@@ -41,10 +40,8 @@ function Conversation({
 
   useEffect(() => {
     if (
-      // eslint-disable-next-line prettier/prettier
       receiveMessage !== null &&
       receiveMessage.conversationId === conversation._id
-      // eslint-disable-next-line prettier/prettier
     ) setMessages((prev) => [...prev, receiveMessage])
   }, [receiveMessage])
 

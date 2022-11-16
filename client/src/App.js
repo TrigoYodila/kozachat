@@ -5,7 +5,6 @@ import Protected from './components/Protected/Protected'
 // eslint-disable-next-line import/order
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Conversation from './components/conversation/Conversation'
-// eslint-disable-next-line prettier/prettier
 import { useStateValue } from './reducers/StateProvider'
 // eslint-disable-next-line import/order
 import axios from 'axios'

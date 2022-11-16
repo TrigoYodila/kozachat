@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-/* eslint-disable prettier/prettier */
 /* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
@@ -34,7 +33,6 @@ function Contact({
   useEffect(() => {
     const getUserData = async () => {
       try {
-        // eslint-disable-next-line prettier/prettier
         const { data } = await getaAllUsers(user._id)
         setAllUsersData(data)
         setTimeout(() => SetIsLoading(false), 1000)
@@ -110,7 +108,6 @@ function Contact({
                       }
                       alt="Profile"
                       className="followerImage"
-                      // eslint-disable-next-line prettier/prettier
                       style={{ width: '70px', height: '70px' }}
                     />
                   )}
