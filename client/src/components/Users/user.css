@@ -2,6 +2,10 @@
   /* border: 2px solid green; */
 }
 
+.conversation-user img{
+  border-radius: 50%;
+  object-fit: cover;
+}
 .follower {
   width: 100%;
   padding: 0rem;

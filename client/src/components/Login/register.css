@@ -77,3 +77,10 @@ input {
   background: var(--grise);
   height: fit-content;
 }
+
+.file-button input{
+  padding: 0;
+  border-bottom: none;
+}
+
+.register-infos{}

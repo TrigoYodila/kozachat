@@ -102,7 +102,7 @@ function Register() {
       data: formData,
     })
     const profilepicture = resultData.data['secure_url']
-
+    console.log('res image', resultData)
     if (profilepicture !== null) {
       // created user
       axios
@@ -113,10 +113,10 @@ function Register() {
         })
         // eslint-disable-next-line no-shadow
         .then((user) => {
-          // console.log('USER REGIS ', user.data.user)
+          console.log('USER REGIS ', user.data.user)
           localStorage.setItem('token', user.data.token)
           dispatch({
-            type: 'GET_USE',
+            type: 'GET_USER',
             user: user.data.user,
           })
         })
@@ -136,7 +136,7 @@ function Register() {
           <div className="inputs">
             <input
               type="text"
-              placeholder="Email"
+              placeholder="Username"
               name="username"
               value={dataUser.username}
               onChange={(e) => handleChange(e)}
@@ -163,7 +163,20 @@ function Register() {
             />
             <small className="error-message">{formError.confirmPassword}</small>
           </div>
-
+          <div className="register-profil">
+            <div className="image-profil">
+              <img src="" alt="" />
+            </div>
+            <div className="file-button">
+              <input
+                type="file"
+                id="profil"
+                accept="image/png, jpg, jpeg"
+                name="avatar"
+                onChange={(e) => handleImageChange(e.target.files)}
+              />
+            </div>
+          </div>
           <div className="buttons">
             <input
               className="btn-connect"
@@ -176,20 +189,6 @@ function Register() {
                 Vous avez déjà un compte ? <span>se connecter</span>
               </p>
             </div>
-          </div>
-        </div>
-        <div className="register-profil">
-          <div className="image-profil">
-            <img src="" alt="" />
-          </div>
-          <div className="file-button">
-            <input
-              type="file"
-              id="profil"
-              accept="image/png, jpg, jpeg"
-              name="avatar"
-              onChange={(e) => handleImageChange(e.target.files)}
-            />
           </div>
         </div>
       </form>

@@ -3,7 +3,7 @@
 import axios from 'axios'
 // eslint-disable-next-line object-curly-newline
 import React, { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import Conversation from '../conversation/Conversation'
 import Sidebar from '../Sidebar/Sidebar'
 import User from '../Users/User'
@@ -21,7 +21,7 @@ import Contact from '../Contact/Contact'
 import Loading from '../Login/Loading'
 
 function Protected() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const socket = useRef()
 
   const [{ user }] = useStateValue()
@@ -50,7 +50,7 @@ function Protected() {
   //     setReceiveMessage(data)
   //    })
   //  }, []);
-
+  // console.log('user protected', user)
   useEffect(() => {
     const getConversations = async () => {
       try {
@@ -78,19 +78,21 @@ function Protected() {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    axios
-      .get('http://localhost:5000/auth/protected', {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(() => {
-        // setIsLoading(false)
-      })
-      .catch(() => {
-        // error
-        setTimeout(() => navigate('/login'), 2500)
-      })
+    if (token) {
+      axios
+        .get('http://localhost:5000/auth/protected', {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then(() => {
+          // setIsLoading(false)
+        })
+        .catch(() => {
+          // error
+          // setTimeout(() => navigate('/login'), 2500)
+        })
+    }
 
     // receive Message from socket server
     socket.current.on('receive-message', (data) => {

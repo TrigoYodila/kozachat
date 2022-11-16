@@ -15,9 +15,9 @@ import { RiLogoutBoxFill } from 'react-icons/ri'
 // eslint-disable-next-line react/prop-types
 function Sidebar({ clickedLink, setClickedLink }) {
   const [{ user }] = useStateValue()
+  // const [{ user }] = useStateValue()
   const navigate = useNavigate()
-
-  // console.log('user complete sidebar ', user)
+  console.log('clicked user ', user)
 
   const handleClicked = () => {
     setClickedLink(false)
@@ -29,6 +29,11 @@ function Sidebar({ clickedLink, setClickedLink }) {
 
   const logout = () => {
     localStorage.removeItem('token')
+    // dispatch({
+    //   type: 'GET_USER',
+    //   user: {},
+    // })
+    // eslint-disable-next-line no-underscore-dangle
     navigate('/login')
   }
 
@@ -38,7 +43,7 @@ function Sidebar({ clickedLink, setClickedLink }) {
         <div className="user-image">
           <img
             src={
-              user?.profilepicture === null ? user?.profilepicture : profileuser
+              user?.profilepicture !== null ? user?.profilepicture : profileuser
             }
             alt=""
           />

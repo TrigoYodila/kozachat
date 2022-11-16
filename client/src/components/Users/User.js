@@ -13,6 +13,7 @@ function User({ data, online }) {
   const [lastMessage, setLastMessage] = useState('')
   const [isloading, setIsLoading] = useState(true)
 
+  // console.log('USER DATA', userData)
   useEffect(() => {
     // eslint-disable-next-line react/prop-types
     const userId = data?.participants?.find((id) => id !== currentUserId)
@@ -34,6 +35,7 @@ function User({ data, online }) {
     // eslint-disable-next-line no-underscore-dangle
     getMessages(data._id)
       .then((chat) => {
+        // console.log('MO N CHAT', chat.data)
         setLastMessage(chat.data[chat.data.length - 1].content)
         setIsLoading(false)
       })
@@ -60,7 +62,7 @@ function User({ data, online }) {
           ) : (
             <img
               src={
-                userData?.profilepicture === null
+                userData?.profilepicture !== null
                   ? userData?.profilepicture
                   : profileuser
               }

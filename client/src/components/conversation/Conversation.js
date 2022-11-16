@@ -137,6 +137,7 @@ function Conversation({
       data: formData,
     })
       .then((result) => {
+        console.log('PHOTO ', result)
         setImageMessage((prev) => [...prev, result.data['secure_url']])
       })
       .catch((error) => console.log(error))
@@ -150,7 +151,11 @@ function Conversation({
             <div className="follower">
               <div>
                 <img
-                  src={profileuser}
+                  src={
+                    userData?.profilepicture !== null
+                      ? userData?.profilepicture
+                      : profileuser
+                  }
                   alt=""
                   style={{ width: '50px', height: '50px' }}
                 />
@@ -198,7 +203,7 @@ function Conversation({
                         className={
                           message.senderId === currentUserId
                             ? 'images-messages'
-                            : 'images-messages images-messages-own'
+                            : 'images-messages-own'
                         }
                       >
                         {message.attachement.map((uri) => (
@@ -208,7 +213,7 @@ function Conversation({
                       <small
                         className={
                           message.senderId !== currentUserId &&
-                          'images-messages-own'
+                          'images-messages-own-small'
                         }
                       >
                         {format(message.createdAt)}

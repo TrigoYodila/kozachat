@@ -62,7 +62,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<Started />} /> */}
         <Route path="/" element={<Started />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

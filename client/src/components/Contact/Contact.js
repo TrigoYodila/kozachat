@@ -104,7 +104,7 @@ function Contact({
                   ) : (
                     <img
                       src={
-                        user?.profilepicture === null
+                        user?.profilepicture !== null
                           ? user?.profilepicture
                           : profileuser
                       }
