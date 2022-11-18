@@ -56,7 +56,7 @@ const Login = () => {
   }
 
   const display = clicked ? (
-    <Register />
+    <Register setClicked={setClicked} />
   ) : (
     <div className="container">
       <form action="">

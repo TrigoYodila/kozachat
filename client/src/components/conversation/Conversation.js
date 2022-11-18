@@ -42,6 +42,7 @@ function Conversation({
     if (
       receiveMessage !== null &&
       receiveMessage.conversationId === conversation._id
+      // eslint-disable-next-line prettier/prettier
     ) setMessages((prev) => [...prev, receiveMessage])
   }, [receiveMessage])
 

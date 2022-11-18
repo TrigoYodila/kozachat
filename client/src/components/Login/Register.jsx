@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable dot-notation */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react'
@@ -5,8 +7,9 @@ import './register.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useStateValue } from '../../reducers/StateProvider'
+import profileuser from '../../Assets/images/user.png'
 
-function Register() {
+function Register({ setClicked }) {
   // eslint-disable-next-line no-unused-vars
   const [{ user }, dispatch] = useStateValue()
   const navigate = useNavigate()
@@ -125,10 +128,19 @@ function Register() {
     navigate('/protected')
   }
 
-  const handleImageChange = (imgselected) => {
-    setImage(imgselected[0])
+  // const handleImageChange = (imgselected) => {
+  //   setImage(imgselected[0])
+  // }
+
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]))
+    }
   }
 
+  const handleGoLogin = () => {
+    setClicked(false)
+  }
   return (
     <div className="container">
       <form onSubmit={validateFormInput}>
@@ -165,17 +177,37 @@ function Register() {
           </div>
           <div className="register-profil">
             <div className="image-profil">
-              <img src="" alt="" />
+              <img src={image || profileuser} alt="" />
             </div>
-            <div className="file-button">
+            <label
+              htmlFor="formId"
+              onChange={handleImageChange}
+              className="file-button"
+            >
               <input
                 type="file"
-                id="profil"
+                id="formId"
                 accept="image/png, jpg, jpeg"
                 name="avatar"
-                onChange={(e) => handleImageChange(e.target.files)}
+                style={{ display: 'none' }}
               />
-            </div>
+              +
+            </label>
+            {/* <div className="btn-image">
+              <label
+                htmlFor="formId"
+                onChange={handleImageChange}
+                className="file-button"
+              >
+                <input
+                  type="file"
+                  id="formId"
+                  accept="image/png, jpg, jpeg"
+                  name="avatar"
+                  style={{ display: 'none' }}
+                />
+              </label>
+            </div> */}
           </div>
           <div className="buttons">
             <input
@@ -186,7 +218,8 @@ function Register() {
 
             <div>
               <p>
-                Vous avez déjà un compte ? <span>se connecter</span>
+                Vous avez déjà un compte ?
+                <span onClick={handleGoLogin}> se connecter</span>
               </p>
             </div>
           </div>

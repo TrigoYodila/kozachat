@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable indent */
 /* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
@@ -21,6 +22,7 @@ function Contact({
   setCurrentConversation,
   // eslint-disable-next-line no-unused-vars
   onlineUsers,
+  // eslint-disable-next-line prettier/prettier
   currentConversation
 }) {
   const [{ user }] = useStateValue()
@@ -76,8 +78,9 @@ function Contact({
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {getdata
-        // eslint-disable-next-line arrow-body-style
-        && allUsersData.map((user, index) => {
+        // eslint-disable-next-line arrow-body-style, prettier/prettier
+          && allUsersData.map((user, index) => {
+          // eslint-disable-next-line prettier/prettier
            const isOnline = checkMemberOnline(user)
           return (
             // eslint-disable-next-line max-len
