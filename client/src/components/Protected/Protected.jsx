@@ -99,7 +99,7 @@ function Protected() {
     })
 
     // Loading
-    setTimeout(() => setIsLoading(false), 1000)
+    setTimeout(() => setIsLoading(false), 2000)
   }, [])
 
   // eslint-disable-next-line no-shadow
@@ -107,12 +107,12 @@ function Protected() {
     const chatMember = conversation.participants.find(
       // eslint-disable-next-line no-underscore-dangle
       (member) => member !== user._id
-    );
+    )
     // eslint-disable-next-line no-shadow
-    const online = onlineUsers.find((user) => user.userId === chatMember);
+    const online = onlineUsers.find((user) => user.userId === chatMember)
     if (online === undefined) {
       return false
-    // eslint-disable-next-line no-else-return
+      // eslint-disable-next-line no-else-return
     } else {
       return true
     }
@@ -139,7 +139,7 @@ function Protected() {
             </span>
           </div>
 
-          <div className="recent-user-info">
+          <div className="recent-user-info scrollbar-hidden">
             <h1>{clickedLink === false ? 'Recent' : 'Contacts'}</h1>
             {clickedLink === false ? (
               // eslint-disable-next-line no-shadow

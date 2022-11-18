@@ -23,6 +23,8 @@ html {
 }
 
 body {
+  overflow: hidden;
   background: var(--white-grise);
   font-family: 'Roboto', sans-serif;
+  /* height: 100vh; */
 }

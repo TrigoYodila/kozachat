@@ -47,7 +47,7 @@ function Sidebar({ clickedLink, setClickedLink }) {
             }
             alt=""
           />
-          <p>{user?.username}</p>
+          {/* <p>{user?.username}</p> */}
         </div>
         <div className="user-icons-container">
           <div

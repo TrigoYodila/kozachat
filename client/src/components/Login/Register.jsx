@@ -14,6 +14,7 @@ function Register({ setClicked }) {
   const [{ user }, dispatch] = useStateValue()
   const navigate = useNavigate()
   const [image, setImage] = useState('')
+  const [imagefile, setImageFile] = useState('')
   const [dataUser, setDataUser] = useState({
     username: '',
     password: '',
@@ -133,8 +134,9 @@ function Register({ setClicked }) {
   // }
 
   const handleImageChange = (event) => {
+    setImage(event.target.files[0])
     if (event.target.files && event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]))
+      setImageFile(URL.createObjectURL(event.target.files[0]))
     }
   }
 
@@ -177,7 +179,7 @@ function Register({ setClicked }) {
           </div>
           <div className="register-profil">
             <div className="image-profil">
-              <img src={image || profileuser} alt="" />
+              <img src={imagefile || profileuser} alt="" />
             </div>
             <label
               htmlFor="formId"
