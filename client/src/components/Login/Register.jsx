@@ -193,21 +193,6 @@ function Register({ setClicked }) {
               />
               +
             </label>
-            {/* <div className="btn-image">
-              <label
-                htmlFor="formId"
-                onChange={handleImageChange}
-                className="file-button"
-              >
-                <input
-                  type="file"
-                  id="formId"
-                  accept="image/png, jpg, jpeg"
-                  name="avatar"
-                  style={{ display: 'none' }}
-                />
-              </label>
-            </div> */}
           </div>
           <div className="buttons">
             <input
