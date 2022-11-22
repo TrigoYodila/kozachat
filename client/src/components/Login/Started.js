@@ -1,9 +1,13 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import './started.css'
 // import { banniere } from "../../Assets/images/bannere2.jpg"
 
 function Started() {
+  const navigate = useNavigate()
+  const handleRegister = () => {
+    navigate('/register', { state: { value: 'true', clicked: true } })
+  }
   return (
     <div className="started-container">
       <div className="started-link">
@@ -15,9 +19,9 @@ function Started() {
           <NavLink to="/login" className="link">
             SE CONNECTER
           </NavLink>
-          <NavLink to="/register" className="secondary">
+          <button type="submit" className="secondary" onClick={handleRegister}>
             CREER UN COMPTE
-          </NavLink>
+          </button>
         </div>
       </div>
       <div className="started-blour"> </div>

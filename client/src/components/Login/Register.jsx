@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useStateValue } from '../../reducers/StateProvider'
 import profileuser from '../../Assets/images/user.png'
 
-function Register({ setClicked }) {
+function Register() {
   // eslint-disable-next-line no-unused-vars
   const [{ user }, dispatch] = useStateValue()
   const navigate = useNavigate()
@@ -20,7 +20,6 @@ function Register({ setClicked }) {
     password: '',
     profilepicture: '',
   })
-
   const handleChange = (e) => {
     const { name, value } = e.target
     setDataUser((preventState) => ({ ...preventState, [name]: value }))
@@ -141,7 +140,7 @@ function Register({ setClicked }) {
   }
 
   const handleGoLogin = () => {
-    setClicked(false)
+    navigate('/login')
   }
   return (
     <div className="container">

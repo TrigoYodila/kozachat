@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import './login.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import Register from './Register'
 import { useStateValue } from '../../reducers/StateProvider'
 
 const Login = () => {
@@ -12,7 +11,6 @@ const Login = () => {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [clicked, setClicked] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -52,12 +50,10 @@ const Login = () => {
   }
 
   const handleClicked = () => {
-    setClicked(true)
+    navigate('/register')
   }
 
-  const display = clicked ? (
-    <Register setClicked={setClicked} />
-  ) : (
+  return (
     <div className="container">
       <form action="">
         <div className="inputs">
@@ -92,8 +88,6 @@ const Login = () => {
       <div className="form-blour"> </div>
     </div>
   )
-
-  return display
 }
 
 export default Login
