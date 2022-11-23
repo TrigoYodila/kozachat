@@ -96,3 +96,12 @@ form div {
 input {
   
 }
+
+.error span{
+  display: block;
+  background-color: rgb(238, 96, 96);
+  padding: 1rem;
+  font-size: 1rem;
+  color:white;
+  font-weight: normal;
+}

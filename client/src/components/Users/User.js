@@ -68,7 +68,7 @@ function User({ data, online }) {
               }
               alt="Profile"
               className="followerImage"
-              style={{ width: '70px', height: '70px' }}
+              // style={{ width: '70px', height: '70px' }}
             />
           )}
           <div className="name" style={{ fontSize: '1rem' }}>
