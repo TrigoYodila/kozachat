@@ -60,18 +60,19 @@ function User({ data, online }) {
               height={55}
             />
           ) : (
-            <img
-              src={
-                userData?.profilepicture !== null
-                  ? userData?.profilepicture
-                  : profileuser
-              }
-              alt="Profile"
-              className="followerImage"
-              // style={{ width: '70px', height: '70px' }}
-            />
+            <div className="contact-profile">
+              <img
+                src={
+                  userData?.profilepicture !== null
+                    ? userData?.profilepicture
+                    : profileuser
+                }
+                alt="Profile"
+                className="followerImage"
+              />
+            </div>
           )}
-          <div className="name" style={{ fontSize: '1rem' }}>
+          <div className="contact-name" style={{ fontSize: '1rem' }}>
             {isloading ? (
               <Skeleton
                 animation="wave"
